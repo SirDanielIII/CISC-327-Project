@@ -2,17 +2,101 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Input Form</title>
+    <title>Rental Management System</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+    <!-- CSS Styles -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #121212; /* Dark background */
+            color: #FFFFFF; /* Light text */
+            font-family: 'Montserrat', sans-serif;
+        }
+        .container {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        .welcome-message {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #BB86FC; /* Accent color */
+        }
+        .subtitle {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 40px;
+            color: #FFFFFF;
+        }
+        .input-form input[type="text"] {
+            width: 300px;
+            padding: 15px;
+            border: none;
+            border-radius: 30px;
+            margin-right: 10px;
+            font-size: 16px;
+            color: #FFFFFF;
+            background-color: #1F1B24;
+        }
+        .input-form button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #FFFFFF;
+            background-color: #03DAC6; /* Button color */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .input-form button:hover {
+            background-color: #018786;
+        }
+        .response-message {
+            font-size: 24px;
+            margin-top: 30px;
+            color: #FFFFFF;
+        }
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .welcome-message {
+                font-size: 36px;
+            }
+            .subtitle {
+                font-size: 20px;
+            }
+            .input-form input[type="text"] {
+                width: 80%;
+                margin-bottom: 20px;
+            }
+            .input-form button {
+                width: 80%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Enter something:</h1>
-    <form method="POST">
-        <input type="text" name="user_input" required>
-        <button type="submit">Submit</button>
-    </form>
+<div class="container">
+    <!-- Welcome Message -->
+    <h1 class="welcome-message">Welcome to the Rental Management System</h1>
+    <p class="subtitle">Effortlessly manage your rental properties and tenants.</p>
+
+    <!-- Input Form -->
+    <div class="input-form">
+        <form method="POST">
+            <input type="text" name="user_input" placeholder="Enter something..." required>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <!-- Response Message -->
     {% if user_input %}
-        <h2>You entered: {{ user_input }}</h2>
+    <div class="response-message">
+        <p>You entered: {{ user_input }}</p>
+    </div>
     {% endif %}
+</div>
 </body>
 </html>
