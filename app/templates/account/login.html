@@ -1,1 +1,47 @@
 {% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block head %}
+    {{ super() }}
+    <style>
+        .input-form form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .input-form input {
+            width: 300px;
+            padding: 15px;
+            border: none;
+            border-radius: 30px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #FFFFFF;
+            background-color: #1F1B24;
+        }
+        .input-form button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #FFFFFF;
+            background-color: #03DAC6; /* Button color */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .input-form button:hover {
+            background-color: #018786;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <!-- Login form -->
+    <div class="input-form">
+        <form method="POST">
+            <input type="text" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+{% endblock %}
