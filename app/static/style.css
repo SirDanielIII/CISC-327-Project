@@ -1,0 +1,11 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #121212; /* Dark background */
+    color: #FFFFFF; /* Light text */
+    font-family: 'Montserrat', sans-serif;
+}
+.container {
+    text-align: center;
+    padding: 50px 20px;
+}

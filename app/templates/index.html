@@ -1,23 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Rental Management System</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
-    <!-- CSS Styles -->
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block head %}
+    {{ super() }}
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #121212; /* Dark background */
-            color: #FFFFFF; /* Light text */
-            font-family: 'Montserrat', sans-serif;
-        }
-        .container {
-            text-align: center;
-            padding: 50px 20px;
-        }
         .welcome-message {
             font-size: 48px;
             font-weight: 700;
@@ -76,9 +61,8 @@
             }
         }
     </style>
-</head>
-<body>
-<div class="container">
+{% endblock %}
+{% block content %}
     <!-- Welcome Message -->
     <h1 class="welcome-message">Welcome to the Rental Management System</h1>
     <p class="subtitle">Effortlessly manage your rental properties and tenants.</p>
@@ -97,6 +81,4 @@
         <p>You entered: {{ user_input }}</p>
     </div>
     {% endif %}
-</div>
-</body>
-</html>
+{% endblock %}
