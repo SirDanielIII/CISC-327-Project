@@ -13,7 +13,7 @@ login_manager.login_view = 'account.login'
 @login_manager.user_loader
 def user_loader(idStr: str):
     if idStr.isdigit():
-        id = int(str)
+        id = int(idStr)
         for user in in_memory_users:
             if user.id == id:
                 return user

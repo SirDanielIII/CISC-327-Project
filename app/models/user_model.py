@@ -6,18 +6,13 @@ class UserRoles(Enum):
     PROPETY_OWNER = 2
     ADMINISTRATOR = 3
 
-next_user_id = 1
-
 class User(UserMixin):
-    id: int
-    email: str
-    password: str
-    token_2fa: str | None = None
-    role: UserRoles
+    next_user_id = 1
 
-    def __init__(self, email, password, role) -> None:
-        self.id = next_user_id
-        next_user_id = next_user_id + 1
+    def __init__(self, email, password, role: UserRoles) -> None:
+        self.id = User.next_user_id
+        User.next_user_id = User.next_user_id + 1
         self.email = email
         self.password = password
         self.role = role
+        self.token_2fa: str | None = None
