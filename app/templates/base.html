@@ -11,6 +11,17 @@
     {% endblock %}
 </head>
 <body>
+    <!--Messages Start-->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class=flashes>
+            {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <!--Messages End-->
     <div class="container">
         {% block content %}
         {% endblock %}
