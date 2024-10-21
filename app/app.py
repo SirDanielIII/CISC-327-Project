@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_login import LoginManager
-from controllers import public_controller, account_controller
+from controllers import public_controller, account_controller, property_controller
 from models import in_memory_users
 
 app = Flask(__name__)
@@ -22,6 +22,7 @@ def user_loader(idStr: str):
 
 app.register_blueprint(public_controller.public_blueprint)
 app.register_blueprint(account_controller.account_blueprint)
+app.register_blueprint(property_controller.property_blueprint)
 
 if __name__ == '__main__':
     app.run(debug=True)
