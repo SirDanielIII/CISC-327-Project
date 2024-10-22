@@ -1,11 +1,12 @@
 import hashlib
 import secrets
+from flask_login import UserMixin
 
-from app.database.database_manager import DatabaseManager, DatabaseType
-from app.enums.AccountType import AccountType
+from database.database_manager import DatabaseManager, DatabaseType
+from enums.AccountType import AccountType
 
 
-class User:
+class User(UserMixin):
     def __init__(self, user_uuid):
         self.uuid = user_uuid
         self.email = None
@@ -20,8 +21,11 @@ class User:
         self.lease_agreements = []  # Lease agreements associated with the user
 
         # Load user and associated properties from the database
-        self.load_user_from_db()
-        self.load_associated_properties()
+        #self.load_user_from_db()
+        #self.load_associated_properties()
+
+    def get_id(self):
+        return self.uuid
 
     def load_user_from_db(self):
         """Load user details from the user database."""
@@ -34,6 +38,8 @@ class User:
             self.password = row['password']
             self.account_type = AccountType(row['account_type'])
             self.token_2fa = row['token_2fa']
+            return True
+        return False
 
     def load_associated_properties(self):
         """Load associated properties based on the user's role."""

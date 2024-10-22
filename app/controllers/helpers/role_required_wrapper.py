@@ -6,7 +6,7 @@ def role_required(role):
     def wrapper(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
-            if not current_user.is_authenticated or not current_user.role == role:
+            if not current_user.is_authenticated or not current_user.account_type == role:
                 return abort(403)  # Forbidden
             return f(*args, **kwargs)
         return decorated_function

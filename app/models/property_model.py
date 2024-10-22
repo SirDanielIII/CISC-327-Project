@@ -1,5 +1,5 @@
-from app.database.database_manager import DatabaseManager
-from app.enums.DatabaseType import DatabaseType
+from database.database_manager import DatabaseManager
+from enums.DatabaseType import DatabaseType
 
 
 class Property:

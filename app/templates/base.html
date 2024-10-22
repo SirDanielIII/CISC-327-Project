@@ -17,7 +17,10 @@
     <div class="navbar">
         <img class="nav-logo" src="{{url_for('static', filename='favicon.ico')}}" onclick="location.href='/'">
         {% if current_user.is_authenticated %}
-            <h3 class="Name">{{current_user.name}}</h3>
+        <div class="unauth-btns-cont">
+            <h3 class="Name">{{current_user.email}}</h3>
+            <a href="/logout">Logout</a>
+        </div>
         {% else %}
             <div class="unauth-btns-cont">
                 <a class="unauth-btn" href="/login">Login</a>
@@ -38,7 +41,7 @@
     {% endwith %}
     <!--Messages End-->
     <div class="container">
-        {% if current_user.is_authenticated and current_user.role.value == 2 %}
+        {% if current_user.is_authenticated and current_user.account_type.value == 2 %}
         <div class="Sidebar">
             <button class="secondary-nav-btn">
                 Messages

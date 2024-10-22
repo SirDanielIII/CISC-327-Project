@@ -1,7 +1,9 @@
 from flask import Blueprint, render_template, redirect, request, flash
-from flask_login import login_user, login_required
+from flask_login import login_user, login_required, logout_user
+from models.user_model import User
 from models import in_memory_users
-from models.user_model import User, UserRoles
+from enums.AccountType import AccountType
+from database.database_manager import DatabaseManager
 
 account_blueprint = Blueprint('account', __name__)
 
@@ -23,16 +25,30 @@ def login():
 @account_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        name = request.form['name']
         email = request.form['email']
         password = request.form['password']
-        # TODO: Backend implementation
-        # For now always success
-        new_user = User(email, password, UserRoles.PROPERTY_OWNER)
+        
+        for user in in_memory_users:
+            if user.email == email:
+                # A user with this email already exists
+                flash('The email provided is already registed for an account! Please login instead.', 'error')
+                return render_template('account/register.html')     
+
+        user_id = DatabaseManager.generate_uuid_for_user(email)
+        new_user = User(user_id)
+        new_user.email = email
+        new_user.password = password
+        new_user.account_type = AccountType.PROPERTY_OWNER
         in_memory_users.append(new_user)
         login_user(new_user)
         return redirect('/setup_2fa')
     return render_template('account/register.html')
+
+@account_blueprint.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect('/')
 
 @account_blueprint.route('/setup_2fa', methods=['GET', 'POST'])
 @login_required

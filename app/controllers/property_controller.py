@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, abort, url_for
 from flask_login import login_required, current_user
 from .helpers.role_required_wrapper import role_required
-from models.user_model import UserRoles
+from enums.AccountType import AccountType
 from models.property_model import Property
 from models import in_memory_properties
 
@@ -9,17 +9,18 @@ property_blueprint = Blueprint('property', __name__)
 
 @property_blueprint.route('/properties', methods=['GET'])
 @login_required
-@role_required(UserRoles.PROPERTY_OWNER)
+@role_required(AccountType.PROPERTY_OWNER)
 def get_properties():
     user_properties = []
     for property in in_memory_properties:
-        if property.owner_id == current_user.id:
-            user_properties.append(property)
+        for property_owner in property.owner:
+            if property_owner == current_user.uuid:
+                user_properties.append(property)
     return render_template('managementProperties/properties.html', properties=user_properties)
 
 @property_blueprint.route('/property_details/<id>', methods=['GET', 'POST', 'DELETE'])
 @login_required
-@role_required(UserRoles.PROPERTY_OWNER)
+@role_required(AccountType.PROPERTY_OWNER)
 def property_details(id):
     found_property = None
     for property in in_memory_properties:
@@ -42,7 +43,7 @@ def property_details(id):
 
 @property_blueprint.route('/add_property', methods=['GET', 'POST'])
 @login_required
-@role_required(UserRoles.PROPERTY_OWNER)
+@role_required(AccountType.PROPERTY_OWNER)
 def add_property():
     if request.method == 'GET':
         return render_template('managementProperties/property.html')
