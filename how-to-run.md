@@ -1,30 +1,25 @@
-## How to run the starter project
+## How To Run The Project
 
-1. Make sure you are in the root directory of the project.
-2. In the root directory, create a virtual environment by running the following command:
+1. Ensure you have Python 3 installed. You can check with the following command:
 
-    ```bash
-    python3 -m venv venv
+    ```powershell
+     python --version
     ```
-    Here the second `venv` is the name of the virtual environment. You can use any name you want.
-
-3. Activate the virtual environment by running the following command:
-
-    ```bash
-    source venv/bin/activate 
-    ```
-    If you are using Windows, you can activate the virtual environment by running the following command:
-
-    ```bash
-    venv\Scripts\activate
-    ```
-4. Install the required packages by running the following command:
+   or if you're on a Unix system:
+   ```bash
+    python3 -version
+    ``` 
+2. Install the required packages by running the following command:
 
     ```bash
     pip install -r requirements.txt
     ```
-5. Run the following command to start the server:
+3. Run the following command to start the server:
 
-    ```bash
+    ```powershell
     python app.py
     ```
+   or if you're on a Unix system:
+   ```bash
+    python3 app.py
+    ``` 
