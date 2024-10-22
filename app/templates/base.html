@@ -8,13 +8,31 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
     <!-- CSS Styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Favicon-->
+     <link rel="icon" href="{{url_for('static', filename='favicon.ico')}}">
     {% endblock %}
 </head>
 <body>
+    <!--Main nav start-->
+    <div class="navbar">
+        <img class="nav-logo" src="{{url_for('static', filename='favicon.ico')}}" onclick="location.href='/'">
+        {% if current_user.is_authenticated %}
+        <div class="unauth-btns-cont">
+            <h3 class="Name">{{current_user.email}}</h3>
+            <a class="unauth-btn" href="/logout">Logout</a>
+        </div>
+        {% else %}
+            <div class="unauth-btns-cont">
+                <a class="unauth-btn" href="/login">Login</a>
+                <a class="unauth-btn" href="/register">Register</a>
+            </div>
+        {% endif %}
+    </div>
+    <!--main nav end-->
     <!--Messages Start-->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            <ul class=flashes>
+            <ul id="flashes" class=flashes>
             {% for category, message in messages %}
             <li class="{{ category }}">{{ message }}</li>
             {% endfor %}
@@ -23,8 +41,38 @@
     {% endwith %}
     <!--Messages End-->
     <div class="container">
-        {% block content %}
-        {% endblock %}
+        {% if current_user.is_authenticated and current_user.account_type.value == 2 %}
+        <div class="Sidebar">
+            <button class="secondary-nav-btn">
+                Messages
+            </button>
+            <button class="secondary-nav-btn">
+                Tenants
+            </button>
+            <button class="secondary-nav-btn">
+                Requests
+            </button>
+            <button class="secondary-nav-btn {% block properties_classes %}{% endblock %}"
+                    onclick="location.href='/properties'">
+                Properties
+            </button>
+            <button class="secondary-nav-btn">
+                Reports and Analytics
+            </button>
+        </div>
+        {% endif %}
+        <div class="content-container">
+            {% block content %}
+            {% endblock %}
+        </div>
     </div>
+    <script>
+        setTimeout(function() {
+            var flashMessages = document.getElementById('flashes');
+            if (flashMessages) {
+                flashMessages.style.display = 'none';
+            }
+        }, 5000);  // 5000 milliseconds = 5 seconds
+    </script>
 </body>
 </html>
