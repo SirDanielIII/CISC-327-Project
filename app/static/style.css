@@ -73,3 +73,15 @@ button {
     justify-content: center;
     width: 100%;
 }
+
+.flashes {
+    list-style-type: none;
+}
+
+.flashes .success {
+    color: green;
+}
+
+.flashes .error {
+    color: red;
+}

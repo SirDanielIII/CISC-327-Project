@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, abort, url_for
+from flask import Blueprint, render_template, request, redirect, abort, url_for, flash
 from flask_login import login_required, current_user
 from .helpers.role_required_wrapper import role_required
 from enums.AccountType import AccountType
@@ -15,6 +15,7 @@ def get_properties():
     if request.method == 'POST':
         ids = request.form['property_ids']
         parsed_ids = ids.split(',')
+        deleted_count = 0
         for i in reversed(range(len(in_memory_properties))):
             property = in_memory_properties[i]
             for parsed_id in parsed_ids:
@@ -22,6 +23,8 @@ def get_properties():
                     for owner in property.owner:
                         if current_user.uuid == owner:
                             in_memory_properties.remove(property)
+                            deleted_count+=1
+        flash(f'Successfully deleted {deleted_count} properties.',category='success')
         return redirect(url_for('property.get_properties'))
 
     user_properties = []
@@ -70,6 +73,7 @@ def property_details(id):
         found_property.bathrooms = bathrooms
         found_property.rent_per_month = rent_price
         found_property.available = availability == 'available'
+        flash(f'Successfully saved all updated property values.',category='success')
 
     return render_template('managementProperties/property.html', property=found_property)
 
@@ -100,5 +104,6 @@ def add_property():
     new_property.owner.append(current_user.uuid)
 
     in_memory_properties.append(new_property)
+    flash(f'Successfully added the new property.',category='success')
     return redirect(url_for('property.property_details', id=new_property.id))
     

@@ -56,6 +56,7 @@ def setup_2fa():
     if request.method == 'POST':
         # TODO: Backend implementation
         # For now always success
+        flash('Successfully setup 2FA authentication.', category='success')
         return redirect('/') # TODO
     return render_template('account/setup_2fa.html')
 

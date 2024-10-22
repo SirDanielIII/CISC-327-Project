@@ -32,7 +32,7 @@
     <!--Messages Start-->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            <ul class=flashes>
+            <ul id="flashes" class=flashes>
             {% for category, message in messages %}
             <li class="{{ category }}">{{ message }}</li>
             {% endfor %}
@@ -66,5 +66,13 @@
             {% endblock %}
         </div>
     </div>
+    <script>
+        setTimeout(function() {
+            var flashMessages = document.getElementById('flashes');
+            if (flashMessages) {
+                flashMessages.style.display = 'none';
+            }
+        }, 5000);  // 5000 milliseconds = 5 seconds
+    </script>
 </body>
 </html>
