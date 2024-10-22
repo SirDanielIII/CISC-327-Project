@@ -3,7 +3,7 @@ from enum import Enum
 
 class UserRoles(Enum):
     TENANT = 1
-    PROPETY_OWNER = 2
+    PROPERTY_OWNER = 2
     ADMINISTRATOR = 3
 
 class User(UserMixin):

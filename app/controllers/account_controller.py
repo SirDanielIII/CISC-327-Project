@@ -27,7 +27,7 @@ def register():
         password = request.form['password']
         # TODO: Backend implementation
         # For now always success
-        new_user = User(email, password, UserRoles.PROPETY_OWNER)
+        new_user = User(email, password, UserRoles.PROPERTY_OWNER)
         in_memory_users.append(new_user)
         login_user(new_user)
         return redirect('/setup_2fa')
