@@ -13,47 +13,63 @@
             </button>
         </div>
         <form class="property-form" id="property-form" method="post">
-            <label for="streetAddress">Street Address:</label>
-            <input type="text" id="streetAddress" value="" placeholder="Enter street address" />
+            {% if property == None %}
+                <label for="streetAddress">Street Address:</label>
+                <input type="text" name="streetAddress" value="" placeholder="Enter street address" />
 
-            <label for="ptype">Property Type:</label>
-            <input type="text" id="ptype" value="" placeholder="Enter property type" />
+                <label for="ptype">Property Type:</label>
+                <input type="text" name="ptype" value="" placeholder="Enter property type" />
 
-            <label for="sqft">Square Footage:</label>
-            <input type="text" id="sqft" value="" placeholder="Enter square footage" />
+                <label for="sqft">Square Footage:</label>
+                <input type="text" name="sqft" value="" placeholder="Enter square footage" />
 
-            <label for="bdr">Bedrooms:</label>
-            <input type="text" id="bdr" value="" placeholder="Enter number of bedrooms" />
+                <label for="bdr">Bedrooms:</label>
+                <input type="text" name="bdr" value="" placeholder="Enter number of bedrooms" />
 
-            <label for="btr">Bathrooms:</label>
-            <input type="text" id="btr" value="" placeholder="Enter number of bathrooms" />
+                <label for="btr">Bathrooms:</label>
+                <input type="text" name="btr" value="" placeholder="Enter number of bathrooms" />
 
-            <label for="price">Leasing Price:</label>
-            <input type="text" id="price" value="" placeholder="Enter leasing price" />
+                <label for="price">Leasing Price:</label>
+                <input type="text" name="price" value="" placeholder="Enter leasing price" />
 
-            <label for="availability">Availability:</label>
-            <select id="availability">
-                <option value="available">Available</option>
-                <option value="notAvailable">Not Available</option>
-            </select>
+                <label for="availability">Availability:</label>
+                <select id="availability" name="availability">
+                    <option value="available">Available</option>
+                    <option value="notAvailable">Not Available</option>
+                </select>
+            {% else %}
+                <label for="streetAddress">Street Address:</label>
+                <input type="text" name="streetAddress" value="{{ property.address }}" placeholder="Enter street address" />
+
+                <label for="ptype">Property Type:</label>
+                <input type="text" name="ptype" value="{{ property.property_type }}" placeholder="Enter property type" />
+
+                <label for="sqft">Square Footage:</label>
+                <input type="text" name="sqft" value="{{ property.sqrFtg }}" placeholder="Enter square footage" />
+
+                <label for="bdr">Bedrooms:</label>
+                <input type="text" name="bdr" value="{{ property.bedrooms }}" placeholder="Enter number of bedrooms" />
+
+                <label for="btr">Bathrooms:</label>
+                <input type="text" name="btr" value="{{ property.bathrooms }}" placeholder="Enter number of bathrooms" />
+
+                <label for="price">Leasing Price:</label>
+                <input type="text" name="price" value="{{ property.rent_per_month }}" placeholder="Enter leasing price" />
+
+                <label for="availability">Availability:</label>
+                <select id="availability" name="availability">
+                    <option value="available"
+                    {% if property.available %}
+                        selected="selected"
+                    {% endif %}
+                    >Available</option>
+                    <option value="notAvailable"
+                    {% if not property.available %}
+                        selected="selected"
+                    {% endif %}
+                >Not Available</option>
+                </select>
+            {% endif %}
         </form>
     </div>
-
-    <script>
-        function saveProperty() {
-            
-        }
-
-        window.onload = function() {
-        const savedProperty = JSON.parse(localStorage.getItem('propertyDetails'));
-        if (savedProperty) {
-            document.getElementById('streetAddress').value = savedProperty.streetAddress;
-            document.getElementById('ptype').value = savedProperty.propertyType;
-            document.getElementById('sqft').value = savedProperty.sqft;
-            document.getElementById('bdr').value = savedProperty.bedrooms;
-            document.getElementById('btr').value = savedProperty.bathrooms;
-            document.getElementById('price').value = savedProperty.price;
-        }
-    };
-    </script>
 {% endblock %}

@@ -6,7 +6,7 @@ class Property:
     def __init__(self, property_id: int):
         self.id = property_id
         self.owner = []
-        self.available_date = None
+        self.available = True
         self.address = None
         self.unit = None
         # Details
@@ -19,11 +19,13 @@ class Property:
         self.includes_heating = None
         self.includes_electricity = None
         self.includes_laundry = None
+        self.property_type = None
+        self.sqrFtg = None
         # For tenants
         tenants = []
         lease_agreement = None
         # Load information from database
-        self.load_property_from_db()
+        #self.load_property_from_db()
 
     def load_property_from_db(self):
         """Load property details from the property database."""

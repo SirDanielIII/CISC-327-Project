@@ -18,38 +18,16 @@
                 Add
             </button>
         </div>
-
         <div class="PropertyTabs", id="PropertiesContainer">
-            <div class = "propertyTab">
-                <button class="view"
-                        onclick="location.href='property.html'">
-                    view
-                </button>
-                <div class="checkButton" onclick="toggleSelect(this)"></div>
-            </div>
-            <div class = "propertyTab">
-                <button class="view"
-                        onclick="location.href='property.html'">
-                    view
-                </button>
-                <div class="checkButton" onclick="toggleSelect(this)"></div>
-            </div>
-            <div class = "propertyTab">
-                <button class="view"
-                        onclick="location.href='property.html'">
-                    view
-                </button>
-                <div class="checkButton" onclick="toggleSelect(this)"></div>
-            </div>
-            <div class = "propertyTab">
-                <button class="view"
-                        onclick="location.href='property.html'">
-                    view
-                </button>
-                <div class="checkButton" onclick="toggleSelect(this)"></div>
-            </div>
-
-            </div>
+            {% for property in properties %}
+                <div class = "propertyTab">
+                    <button class="view"
+                            onclick="location.href='/property_details/{{ property.id }}'">
+                        view
+                    </button>
+                    <div class="checkButton" onclick="toggleSelect(this)"></div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 

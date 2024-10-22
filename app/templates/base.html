@@ -19,7 +19,7 @@
         {% if current_user.is_authenticated %}
         <div class="unauth-btns-cont">
             <h3 class="Name">{{current_user.email}}</h3>
-            <a href="/logout">Logout</a>
+            <a class="unauth-btn" href="/logout">Logout</a>
         </div>
         {% else %}
             <div class="unauth-btns-cont">
