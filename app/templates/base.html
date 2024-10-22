@@ -15,8 +15,8 @@
 <body>
     <!--Main nav start-->
     <div class="navbar">
-        <img class="nav-logo" src="{{url_for('static', filename='favicon.ico')}}">
-        {% if current_user.is_authenicated %}
+        <img class="nav-logo" src="{{url_for('static', filename='favicon.ico')}}" onclick="location.href='/'">
+        {% if current_user.is_authenticated %}
             <h3 class="Name">{{current_user.name}}</h3>
         {% else %}
             <div class="unauth-btns-cont">
@@ -38,26 +38,26 @@
     {% endwith %}
     <!--Messages End-->
     <div class="container">
+        {% if current_user.is_authenticated and current_user.role.value == 2 %}
         <div class="Sidebar">
-            {% if current_user.is_authenticated and current_user.role == 2 %}
-                <button class="secondary-nav-btn">
-                    Messages
-                </button>
-                <button class="secondary-nav-btn">
-                    Tenants
-                </button>
-                <button class="secondary-nav-btn">
-                    Requests
-                </button>
-                <button class="secondary-nav-btn {% block properties_classes %}{% endblock %}"
-                        onclick="location.href='properties.html'">
-                    Properties
-                </button>
-                <button class="secondary-nav-btn">
-                    Reports and Analytics
-                </button>
-            {% endif %}
+            <button class="secondary-nav-btn">
+                Messages
+            </button>
+            <button class="secondary-nav-btn">
+                Tenants
+            </button>
+            <button class="secondary-nav-btn">
+                Requests
+            </button>
+            <button class="secondary-nav-btn {% block properties_classes %}{% endblock %}"
+                    onclick="location.href='/properties'">
+                Properties
+            </button>
+            <button class="secondary-nav-btn">
+                Reports and Analytics
+            </button>
         </div>
+        {% endif %}
         <div class="content-container">
             {% block content %}
             {% endblock %}

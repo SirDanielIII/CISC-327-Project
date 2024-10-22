@@ -23,10 +23,12 @@
     <!-- Welcome Message -->
     <h1 class="welcome-message">Welcome to the Rental Management System</h1>
     <p class="subtitle">Effortlessly manage your rental properties and tenants.</p>
-    <br>
-    <p class="subtitle">Login or register to get started!</p>
-    <div class="unauth-btns-cont">
-        <a class="unauth-btn">Login</a>
-        <a class="unauth-btn">Register</a>
-    </div>
+    {% if not current_user.is_authenticated %}
+        <br>
+        <p class="subtitle">Login or register to get started!</p>
+        <div class="unauth-btns-cont">
+            <a class="unauth-btn" href="/login">Login</a>
+            <a class="unauth-btn" href="/register">Register</a>
+        </div>
+    {% endif %}
 {% endblock %}

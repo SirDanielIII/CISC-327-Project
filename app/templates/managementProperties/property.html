@@ -1,84 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>property</title>
-    <link rel="stylesheet" href="../../static/managementAccount.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"></head>
-</head>
-<body>
-    <div class = "BackgroundDisplay">
-        <div class="Name">
-            NAME
+{% extends "base.html" %}
+{% block title %}Add Property{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static', filename='managementAccount.css')}}">
+{% endblock %}
+{% block properties_classes %}selectedColor{% endblock %}
+{% block content %}
+    <div class="OutputPlacement">
+        <div class="OutputOptionsBar">
+            <button type="submit" form="property-form" class="OptionsButton">
+                Save
+            </button>
         </div>
-        <div class="ProfileImage">
-            <img src="https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_3x4.jpg" alt="Domestic Cat">
-        </div>
-        <div class="G57Logo">
-            G57<br/>
-            LOGO
-        </div>
-        <div class="Account"></div>
-        <div class="Base"></div>
-        <div class="ScreenDisplay">
-            <div class="Sidebar">
-                <button class="color" style="position: absolute; left: 35px; top: 50px;"
-                    onclick="location.href='properties.html'">
-                    Back
-                </button>
-            </div>
-            <div class="OutputPlacement">
-                <div class="OutputOptionsBar">
-                    <button class="view"
-                            style="position: absolute; top: 30px; left: 730px;"
-                            onclick="saveProperty()">
-                        Save
-                    </button>
-                </div>
+        <form class="property-form" id="property-form" method="post">
+            <label for="streetAddress">Street Address:</label>
+            <input type="text" id="streetAddress" value="" placeholder="Enter street address" />
 
-                <label for="streetAddress">Street Address:</label>
-                <input type="text" id="streetAddress" value="" placeholder="Enter street address" />
+            <label for="ptype">Property Type:</label>
+            <input type="text" id="ptype" value="" placeholder="Enter property type" />
 
-                <label for="ptype">Property Type:</label>
-                <input type="text" id="ptype" value="" placeholder="Enter property type" />
+            <label for="sqft">Square Footage:</label>
+            <input type="text" id="sqft" value="" placeholder="Enter square footage" />
 
-                <label for="sqft">Square Footage:</label>
-                <input type="text" id="sqft" value="" placeholder="Enter square footage" />
+            <label for="bdr">Bedrooms:</label>
+            <input type="text" id="bdr" value="" placeholder="Enter number of bedrooms" />
 
-                <label for="bdr">Bedrooms:</label>
-                <input type="text" id="bdr" value="" placeholder="Enter number of bedrooms" />
+            <label for="btr">Bathrooms:</label>
+            <input type="text" id="btr" value="" placeholder="Enter number of bathrooms" />
 
-                <label for="btr">Bathrooms:</label>
-                <input type="text" id="btr" value="" placeholder="Enter number of bathrooms" />
+            <label for="price">Leasing Price:</label>
+            <input type="text" id="price" value="" placeholder="Enter leasing price" />
 
-                <label for="price">Leasing Price:</label>
-                <input type="text" id="price" value="" placeholder="Enter leasing price" />
-
-                <label for="availability">Availability:</label>
-                <select id="availability">
-                    <option value="available">Available</option>
-                    <option value="notAvailable">Not Available</option>
-                </select>
-
-            </div>
-        </div>
+            <label for="availability">Availability:</label>
+            <select id="availability">
+                <option value="available">Available</option>
+                <option value="notAvailable">Not Available</option>
+            </select>
+        </form>
     </div>
 
     <script>
         function saveProperty() {
-            const property = {
-                streetAddress: document.getElementById('streetAddress').value,
-                propertyType: document.getElementById('ptype').value,
-                sqft: document.getElementById('sqft').value,
-                bedrooms: document.getElementById('bdr').value,
-                bathrooms: document.getElementById('btr').value,
-                price: document.getElementById('price').value,
-
-            };
-            const properties = JSON.parse(localStorage.getItem('properties')) || [];
-            properties.push(property);
-            localStorage.setItem('properties', JSON.stringify(properties));
-            alert('Property details saved!');
+            
         }
 
         window.onload = function() {
@@ -93,6 +56,4 @@
         }
     };
     </script>
-
-</body>
-</html>
+{% endblock %}

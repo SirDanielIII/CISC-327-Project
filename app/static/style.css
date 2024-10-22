@@ -3,7 +3,6 @@ body {
 }
 button {
     display: block;
-    width: 310px;
     height: 72px;
     padding: 10px;
     font-size: 24px;
@@ -16,6 +15,7 @@ button {
     background-color:#03dac6;
     color: #ffffff;
     cursor: pointer;
+    width: 87%;
 }
 .selectedColor {
     background-color: #018786;
@@ -40,6 +40,7 @@ button {
 .nav-logo {
     aspect-ratio: 1;
     height: 4rem;
+    cursor: pointer;
 }
 
 .navbar {
@@ -68,4 +69,7 @@ button {
 
 .content-container {
     margin-left: 1rem;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
 }

@@ -15,7 +15,7 @@ def get_properties():
     for property in in_memory_properties:
         if property.owner_id == current_user.id:
             user_properties.append(property)
-    return render_template('property/properties.html', properties=user_properties)
+    return render_template('managementProperties/properties.html', properties=user_properties)
 
 @property_blueprint.route('/property_details/<id>', methods=['GET', 'POST', 'DELETE'])
 @login_required
@@ -32,22 +32,22 @@ def property_details(id):
     
     if request.method == 'DELETE':
         in_memory_properties.remove(found_property)
-        return redirect(url_for(get_properties))
+        return redirect(url_for('property.properties'))
     
     if request.method == 'POST':
         # Update property here
         pass
 
-    return render_template('property/property_details.html', property=found_property)
+    return render_template('managementProperties/property.html', property=found_property)
 
 @property_blueprint.route('/add_property', methods=['GET', 'POST'])
 @login_required
 @role_required(UserRoles.PROPETY_OWNER)
 def add_property():
     if request.method == 'GET':
-        return render_template('property/add_property.html')
+        return render_template('managementProperties/property.html')
     # New property being added
     new_property = Property(current_user.id)
     in_memory_properties.append(new_property)
-    return redirect(url_for(property_details, new_property.id))
+    return redirect(url_for('property.property_details', id=new_property.id))
     
