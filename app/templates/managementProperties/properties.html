@@ -20,7 +20,7 @@
         </div>
         <div class="PropertyTabs", id="PropertiesContainer">
             {% for property in properties %}
-                <div class = "propertyTab">
+                <div class = "propertyTab" id="{{ property.id }}">
                     <button class="view"
                             onclick="location.href='/property_details/{{ property.id }}'">
                         view
@@ -38,11 +38,20 @@
         }
         function removeSelected() {
             const propertyTabs = document.querySelectorAll('.propertyTab');
+            const propertyIds = [];
             propertyTabs.forEach((propertyTab) => {
                 if (propertyTab.classList.contains('selected')) {
-                    propertyTab.remove();
+                    propertyIds.push(propertyTab.id)
                 }
             });
+            const formData = new FormData();
+            formData.append('property_ids', propertyIds.join(','));
+            
+            fetch('/properties', {
+            method: 'POST',
+            body: formData
+            }).then(response => response.text())
+            .then(response => document.querySelector('html').innerHTML = response);
         }
     </script>
 {% endblock %}

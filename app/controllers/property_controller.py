@@ -8,10 +8,22 @@ from database.database_manager import DatabaseManager
 
 property_blueprint = Blueprint('property', __name__)
 
-@property_blueprint.route('/properties', methods=['GET'])
+@property_blueprint.route('/properties', methods=['GET', 'POST'])
 @login_required
 @role_required(AccountType.PROPERTY_OWNER)
 def get_properties():
+    if request.method == 'POST':
+        ids = request.form['property_ids']
+        parsed_ids = ids.split(',')
+        for i in reversed(range(len(in_memory_properties))):
+            property = in_memory_properties[i]
+            for parsed_id in parsed_ids:
+                if property.id == parsed_id:
+                    for owner in property.owner:
+                        if current_user.uuid == owner:
+                            in_memory_properties.remove(property)
+        return redirect(url_for('property.get_properties'))
+
     user_properties = []
     for property in in_memory_properties:
         for property_owner in property.owner:
@@ -19,7 +31,7 @@ def get_properties():
                 user_properties.append(property)
     return render_template('managementProperties/properties.html', properties=user_properties)
 
-@property_blueprint.route('/property_details/<id>', methods=['GET', 'POST', 'DELETE'])
+@property_blueprint.route('/property_details/<id>', methods=['GET', 'POST'])
 @login_required
 @role_required(AccountType.PROPERTY_OWNER)
 def property_details(id):
@@ -41,10 +53,6 @@ def property_details(id):
     if not belongs_to_user:
         # Property does not belong to requesting user
         return abort(403)
-    
-    if request.method == 'DELETE':
-        in_memory_properties.remove(found_property)
-        return redirect(url_for('property.properties'))
     
     if request.method == 'POST':
         address = request.form['streetAddress']
