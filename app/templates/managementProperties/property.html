@@ -1,5 +1,11 @@
 {% extends "base.html" %}
-{% block title %}Add Property{% endblock %}
+{% block title %}
+    {% if property == None %}
+        Add Property
+    {% else %}
+        Property Details
+    {% endif %}
+{% endblock %}
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="{{url_for('static', filename='managementAccount.css')}}">
