@@ -6,8 +6,7 @@ import unittest
 
 from app.app import create_app
 
-class AppTests(unittest.TestCase):
-
+class PublicTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.app = create_app()
@@ -19,15 +18,3 @@ class AppTests(unittest.TestCase):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Welcome', response.data)
-
-    def test_register_success(self):
-        pass
-
-    def test_register_fail(self):
-        pass
-
-    def test_login(self):
-        pass
-
-if __name__ == "__main__":
-    unittest.main()
