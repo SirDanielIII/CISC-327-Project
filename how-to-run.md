@@ -17,9 +17,9 @@
 3. Run the following command to start the server:
 
     ```powershell
-    python app.py
+    python run_app.py
     ```
    or if you're on a Unix system:
    ```bash
-    python3 app.py
+    python3 run_app.py
     ``` 

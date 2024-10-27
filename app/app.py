@@ -1,15 +1,15 @@
 from flask import Flask
 from flask_login import LoginManager
 
-from database import initialize_db
+from .database import initialize_db
 
-def create_app():
+def create_app(unit_test=False):
     app = Flask(__name__)
     app.secret_key = '743e38e4152d2160384c9027fb6b8b85'
 
-    initialize_db(app)
+    initialize_db(app, unit_test)
 
-    from models import User
+    from .models import User
 
     login_manager = LoginManager()
     login_manager.init_app(app)
@@ -21,7 +21,7 @@ def create_app():
             return User.query.get(int(usr_id))
         return None
     
-    from controllers import public_controller, account_controller, property_controller
+    from .controllers import public_controller, account_controller, property_controller
 
     app.register_blueprint(public_controller.public_blueprint)
     app.register_blueprint(account_controller.account_blueprint)

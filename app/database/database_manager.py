@@ -4,7 +4,7 @@ import uuid
 
 from flask import g
 
-from enums.DatabaseType import DatabaseType
+from ..enums.DatabaseType import DatabaseType
 
 
 class DatabaseManager:

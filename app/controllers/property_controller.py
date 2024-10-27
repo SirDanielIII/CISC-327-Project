@@ -1,10 +1,10 @@
 from flask import Blueprint, render_template, request, redirect, abort, url_for, flash
 from flask_login import login_required, current_user
 from .helpers.role_required_wrapper import role_required
-from enums.AccountType import AccountType
-from models.property_model import Property
-from models import in_memory_properties
-from database.database_manager import DatabaseManager
+from ..enums.AccountType import AccountType
+from ..models.property_model import Property
+from ..models import in_memory_properties
+from ..database.database_manager import DatabaseManager
 
 property_blueprint = Blueprint('property', __name__)
 

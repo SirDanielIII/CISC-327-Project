@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, redirect, request, flash
 from flask_login import login_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from models.user_model import User
-from database import db
-from enums.AccountType import AccountType
+from ..models.user_model import User
+from ..database import db
+from ..enums.AccountType import AccountType
 
 account_blueprint = Blueprint('account', __name__)
 

@@ -8,14 +8,15 @@ DATABASE_NAME = 'rent_management.db'
 db = SQLAlchemy()
 migrate = Migrate()
 
-def initialize_db(app: Flask):
+def initialize_db(app: Flask, unit_test=False):
     db_directory = os.path.dirname(__file__)
+
     db_path = os.path.join(db_directory, DATABASE_NAME)
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     #Required for Flask-SqlAlchemy to detect models
-    import models
+    from ..models import User, Property
     db.init_app(app)
 
     migrations_directory = os.path.join(db_directory, 'migrations')

@@ -1,10 +1,7 @@
-import sys
-import os
-sys.path.append(os.path.join(os.path.curdir, 'app'))
-
 import unittest
 
 from app.app import create_app
+from app.database import db
 
 class AccountTests(unittest.TestCase):
     current_user_index = 0
@@ -14,6 +11,11 @@ class AccountTests(unittest.TestCase):
         cls.app = create_app()
         cls.app.config['TESTING'] = True
         cls.client = cls.app.test_client()
+    
+    @classmethod
+    def tearDownClass(cls) -> None:
+        with cls.app.app_context():
+            db.drop_all()
 
     def test_register_visible(self):
         """Test the register page"""

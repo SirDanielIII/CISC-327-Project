@@ -1,7 +1,3 @@
-import sys
-import os
-sys.path.append(os.path.join(os.path.curdir, 'app'))
-
 import unittest
 
 from app.app import create_app
