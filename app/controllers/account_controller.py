@@ -4,10 +4,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from ..models.user_model import User
 from ..database import db
 from ..enums.AccountType import AccountType
+from .helpers.anonymous_only import anonymous_only
 
 account_blueprint = Blueprint('account', __name__)
 
 @account_blueprint.route('/login', methods=['GET', 'POST'])
+@anonymous_only
 def login():
     if request.method == 'POST':
         # Perform authentication here
@@ -26,6 +28,7 @@ def login():
     return render_template('account/login.html')
 
 @account_blueprint.route('/register', methods=['GET', 'POST'])
+@anonymous_only
 def register():
     if request.method == 'POST':
         first_name = request.form['first_name']
