@@ -57,6 +57,7 @@ def register():
 @login_required
 def logout():
     logout_user()
+    flash('Logged out successfully!', category='success')
     return redirect('/')
 
 @account_blueprint.route('/setup_2fa', methods=['GET', 'POST'])
@@ -75,5 +76,6 @@ def verify_2fa():
     if request.method == 'POST':
         # TODO: Backend implementation
         # For now always success
+        flash('Successfully verified 2FA authentication.', category='success')
         return redirect('/') # TODO
     return render_template('account/verify_2fa.html')
