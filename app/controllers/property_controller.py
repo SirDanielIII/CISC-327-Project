@@ -26,7 +26,7 @@ def get_properties():
 @login_required
 @role_required(AccountType.PROPERTY_OWNER)
 def property_details(id: int):
-    found_property = Property.query.get(id)
+    found_property = db.session.get(Property, id)
     
     if found_property == None:
         return abort(404)

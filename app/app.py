@@ -7,7 +7,7 @@ def create_app(unit_test=False):
     app = Flask(__name__)
     app.secret_key = '743e38e4152d2160384c9027fb6b8b85'
 
-    initialize_db(app, unit_test)
+    db = initialize_db(app, unit_test)
 
     from .models import User
 
@@ -18,7 +18,7 @@ def create_app(unit_test=False):
     @login_manager.user_loader
     def user_loader(usr_id: str):
         if usr_id.isdigit():
-            return User.query.get(int(usr_id))
+            return db.session.get(User, int(usr_id))
         return None
     
     from .controllers import public_controller, account_controller, property_controller

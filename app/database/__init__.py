@@ -31,3 +31,5 @@ def initialize_db(app: Flask, unit_test=False):
 
         # Upgrade the db to the latest schema
         upgrade()
+
+    return db

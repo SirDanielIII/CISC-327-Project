@@ -8,6 +8,8 @@ This library provides the bulk of the functionality required by the app.
 It is used for creating database tables based on models, handling all interactions with the database.
 This approach was chosen as it offers the most flexibility and ease of use allowing all group members to
 utilize the models as needed.
+Queries can be built with python directly in a control and utilize types easily.
+Updates are as as simple as updating the object and then calling save on the db.
 
 ## Flask-Migrate
 
