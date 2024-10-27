@@ -18,7 +18,7 @@
         <img class="nav-logo" src="{{url_for('static', filename='favicon.ico')}}" onclick="location.href='/'">
         {% if current_user.is_authenticated %}
         <div class="unauth-btns-cont">
-            <h3 class="Name">{{current_user.email}}</h3>
+            <h3 class="Name">{{current_user.first_name}} {{current_user.last_name}}</h3>
             <a class="unauth-btn" href="/logout">Logout</a>
         </div>
         {% else %}

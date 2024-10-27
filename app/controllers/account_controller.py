@@ -28,6 +28,8 @@ def login():
 @account_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
         email = request.form['email']
         password = request.form['password']
         
@@ -37,7 +39,7 @@ def register():
             flash('The email provided is already registered for an account! Please login instead.', 'error')
             return render_template('account/register.html')     
 
-        user = User(email=email, password=generate_password_hash(password), account_type=AccountType.PROPERTY_OWNER)
+        user = User(first_name=first_name, last_name=last_name, email=email, password=generate_password_hash(password), account_type=AccountType.PROPERTY_OWNER)
 
         db.session.add(user)
         db.session.commit()
