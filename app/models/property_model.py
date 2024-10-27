@@ -10,5 +10,6 @@ class Property(db.Model):
     bathrooms = db.Column(db.Integer, nullable=False)
     property_type = db.Column(db.String(60), nullable=False)
     square_footage = db.Column(db.Integer, nullable=False)
+    rent_per_month = db.Column(db.Integer, nullable=False)
 
     owner = db.relationship('User', back_populates='properties')

@@ -3,8 +3,7 @@ from flask_login import login_required, current_user
 from .helpers.role_required_wrapper import role_required
 from ..enums.AccountType import AccountType
 from ..models.property_model import Property
-from ..models import in_memory_properties
-from ..database.database_manager import DatabaseManager
+from ..database import db
 
 property_blueprint = Blueprint('property', __name__)
 
@@ -15,45 +14,24 @@ def get_properties():
     if request.method == 'POST':
         ids = request.form['property_ids']
         parsed_ids = ids.split(',')
-        deleted_count = 0
-        for i in reversed(range(len(in_memory_properties))):
-            property = in_memory_properties[i]
-            for parsed_id in parsed_ids:
-                if property.id == parsed_id:
-                    for owner in property.owner:
-                        if current_user.uuid == owner:
-                            in_memory_properties.remove(property)
-                            deleted_count+=1
+        deleted_count = db.session.query(Property).filter(Property.id.in_(parsed_ids),
+                            Property.owner_id == current_user.id).delete(synchronize_session='fetch')
+        db.session.commit()
         flash(f'Successfully deleted {deleted_count} properties.',category='success')
         return redirect(url_for('property.get_properties'))
 
-    user_properties = []
-    for property in in_memory_properties:
-        for property_owner in property.owner:
-            if property_owner == current_user.uuid:
-                user_properties.append(property)
-    return render_template('managementProperties/properties.html', properties=user_properties)
+    return render_template('managementProperties/properties.html', properties=current_user.properties)
 
 @property_blueprint.route('/property_details/<id>', methods=['GET', 'POST'])
 @login_required
 @role_required(AccountType.PROPERTY_OWNER)
-def property_details(id):
-    found_property = None
-    for property in in_memory_properties:
-        if property.id == id:
-            found_property = property
-            break
+def property_details(id: int):
+    found_property = Property.query.get(id)
     
     if found_property == None:
         return abort(404)
     
-    belongs_to_user = False
-    for owner in property.owner:
-        if current_user.uuid == owner:
-            belongs_to_user = True
-            break
-    
-    if not belongs_to_user:
+    if found_property.owner_id != current_user.id:
         # Property does not belong to requesting user
         return abort(403)
     
@@ -73,6 +51,8 @@ def property_details(id):
         found_property.bathrooms = bathrooms
         found_property.rent_per_month = rent_price
         found_property.available = availability == 'available'
+
+        db.session.commit()
         flash(f'Successfully saved all updated property values.',category='success')
 
     return render_template('managementProperties/property.html', property=found_property)
@@ -92,18 +72,18 @@ def add_property():
     rent_price = request.form['price']
     availability = request.form['availability']
 
-    property_id = DatabaseManager.generate_uuid_for_rental(address, None)
-    new_property = Property(property_id)
+    new_property = Property()
     new_property.address = address
     new_property.property_type = property_type
-    new_property.sqrFtg = sqrFtg
+    new_property.square_footage = sqrFtg
     new_property.bedrooms = bedrooms
     new_property.bathrooms = bathrooms
     new_property.rent_per_month = rent_price
     new_property.available = availability == 'available'
-    new_property.owner.append(current_user.uuid)
+    new_property.owner_id = current_user.id
 
-    in_memory_properties.append(new_property)
+    db.session.add(new_property)
+    db.session.commit()
     flash(f'Successfully added the new property.',category='success')
     return redirect(url_for('property.property_details', id=new_property.id))
     
