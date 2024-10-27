@@ -16,12 +16,14 @@ def login():
         email = request.form['email']
         password = request.form['password']
 
+        redirect_url = request.args.get('next')
+
         user: User = User.query.filter_by(email=email).scalar()
         if user:
             if check_password_hash(user.password, password):
                 flash('Logged in successfully!', category='success')
                 login_user(user)
-                return redirect('/') # TODO
+                return redirect('/' if redirect_url == None else redirect_url)
 
         # If failure, flash an error message and render_template
         flash('The email or password provided is invalid! Please verify it has been entered correctly.', 'error')
