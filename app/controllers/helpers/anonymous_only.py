@@ -1,11 +1,12 @@
-from flask import abort
+from flask import flash, redirect
 from flask_login import current_user
 from functools import wraps
 
 def anonymous_only(func):
     @wraps(func)
-    def wrapper():
+    def wrapper(*args, **kwargs):
         if current_user.is_authenticated:
-                return abort(403)  # Forbidden
-        func()
+                flash('The requested page is only accessible to logged out users.','error')
+                return redirect('/')  # Forbidden
+        return func(*args, **kwargs)
     return wrapper

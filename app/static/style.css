@@ -77,10 +77,18 @@ button {
 }
 .flashes {
     list-style-type: none;
+    padding: 0;
+    margin: 0;
+    color: white;
+}
+.flashes li {
+    padding: 0.25rem;
+    border: 1px black solid;
+    background: black;
 }
 .flashes .success {
-    color: green;
+    background: green;
 }
 .flashes .error {
-    color: red;
+    background: #b10000;
 }
