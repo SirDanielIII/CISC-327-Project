@@ -1,14 +1,6 @@
-import unittest
+from base_test_class import BaseTestClass
 
-from app.app import create_app
-
-class PublicTests(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls) -> None:
-        cls.app = create_app(True)
-        cls.app.config['TESTING'] = True
-        cls.client = cls.app.test_client()
-
+class PublicTests(BaseTestClass):
     def test_home(self):
         """Test the home page"""
         response = self.client.get('/')

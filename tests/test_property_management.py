@@ -1,28 +1,10 @@
-import unittest
+from base_test_class import BaseTestClass
 
-from app.app import create_app
-from app.database import db
+class PropertyTests(BaseTestClass):
+    def setUp(self) -> None:
+        super().setUp()
+        self.loginTestUser()
 
-class PropertyTests(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls) -> None:
-        cls.app = create_app(True)
-        cls.app.config['TESTING'] = True
-        cls.client = cls.app.test_client()
-
-        cls.user_email = 'propertyowner@example.com'
-        cls.user_password = 'propertyowner'
-
-        cls.client.post('/register', data=dict(
-            email=cls.user_email,
-            password=cls.user_password
-        ))
-    
-    @classmethod
-    def tearDownClass(cls) -> None:
-        with cls.app.app_context():
-            db.drop_all()
-    
     def test_add_property(self):
         """Test Adding a property"""
         address = '12 Test St'

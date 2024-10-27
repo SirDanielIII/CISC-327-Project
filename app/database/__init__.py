@@ -4,16 +4,19 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, upgrade, stamp
 
 DATABASE_NAME = 'rent_management.db'
-UNIT_TEST_DATABASE_NAME = f'unit_test_{DATABASE_NAME}'
 
 db = SQLAlchemy()
 migrate = Migrate()
 
-def initialize_db(app: Flask, unit_test=False):
+def initialize_db(app: Flask, db_name_prefix=None):
     db_directory = os.path.dirname(__file__)
 
-    db_path = os.path.join(db_directory, UNIT_TEST_DATABASE_NAME if unit_test else DATABASE_NAME)
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+    db_file_name = DATABASE_NAME
+    if db_name_prefix != None:
+        db_file_name = db_name_prefix + db_file_name
+
+    db.db_path = os.path.join(db_directory, db_file_name)
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db.db_path}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     #Required for Flask-SqlAlchemy to detect models
@@ -24,7 +27,7 @@ def initialize_db(app: Flask, unit_test=False):
     migrate.init_app(app, db, directory=migrations_directory)
 
     with app.app_context():
-        if not os.path.exists(DATABASE_NAME):
+        if not os.path.exists(db.db_path):
             # db doesn't exist, creating it...
             db.create_all()
             stamp()

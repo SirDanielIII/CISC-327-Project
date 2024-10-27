@@ -3,11 +3,11 @@ from flask_login import LoginManager
 
 from .database import initialize_db
 
-def create_app(unit_test=False):
+def create_app(db_name_prefix=None):
     app = Flask(__name__)
     app.secret_key = '743e38e4152d2160384c9027fb6b8b85'
 
-    db = initialize_db(app, unit_test)
+    db = initialize_db(app, db_name_prefix)
 
     from .models import User
 
