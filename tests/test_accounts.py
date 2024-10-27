@@ -8,7 +8,7 @@ class AccountTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.app = create_app()
+        cls.app = create_app(True)
         cls.app.config['TESTING'] = True
         cls.client = cls.app.test_client()
     
@@ -89,7 +89,7 @@ class AccountTests(unittest.TestCase):
             password='testingpassword'
         ), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'The email provided is already registed for an account!', response.data)
+        self.assertIn(b'The email provided is already registered for an account!', response.data)
         self.assertIn(b'Register', response.data)
 
     def test_valid_login(self):

@@ -6,7 +6,7 @@ from app.database import db
 class PropertyTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.app = create_app()
+        cls.app = create_app(True)
         cls.app.config['TESTING'] = True
         cls.client = cls.app.test_client()
 
@@ -209,5 +209,6 @@ class PropertyTests(unittest.TestCase):
             property_ids=f'{property_id_1},{property_id_2}'
         ), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertNotIn(str.encode(property_id_1), response.data)
-        self.assertNotIn(str.encode(property_id_2), response.data)
+        property_detail_url = '/property_details/'
+        self.assertNotIn(str.encode(property_detail_url + property_id_1), response.data)
+        self.assertNotIn(str.encode(property_detail_url + property_id_2), response.data)

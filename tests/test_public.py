@@ -5,7 +5,7 @@ from app.app import create_app
 class PublicTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.app = create_app()
+        cls.app = create_app(True)
         cls.app.config['TESTING'] = True
         cls.client = cls.app.test_client()
 
