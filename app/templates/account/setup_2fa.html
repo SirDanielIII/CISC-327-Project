@@ -2,47 +2,11 @@
 {% block title %}2FA Setup{% endblock %}
 {% block head %}
     {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static', filename='account-style.css')}}">
     <style>
-        .welcome-message {
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #BB86FC; /* Accent color */
-        }
-        .subtitle {
-            font-size: 24px;
-            font-weight: 400;
-            margin-bottom: 40px;
-            color: #6026a7;
-            margin: 0.5rem 0;
-        }
-        .input-form input {
-            width: 300px;
-            padding: 15px;
-            border: none;
-            border-radius: 30px;
-            margin-bottom: 10px;
-            font-size: 16px;
-            color: #FFFFFF;
-            background-color: #1F1B24;
-        }
-        .input-form button {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 700;
-            color: #FFFFFF;
-            background-color: #03DAC6; /* Button color */
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .input-form button:hover {
-            background-color: #018786;
-        }
         .skip-setup-btn {
             padding: 2rem;
-            margin: 1rem 0.5rem;
+            margin: 0.5rem;
             border: none;
             border-radius: 30px;
             font-size: 16px;
@@ -54,6 +18,9 @@
             text-decoration: none;
             display: flex;
             align-items: center;
+        }
+        .skip-setup-btn:hover {
+            background-color: #434d4c;
         }
     </style>
 {% endblock %}
@@ -69,6 +36,6 @@
             <input type="text" name="verification_code" placeholder="Verification Code" required>
             <button type="submit">Setup 2FA</button>
         </form>
+        <button onclick="location.href='/'" class="skip-setup-btn">Skip 2FA Setup</a>
     </div>
-    <button onclick="location.href='/'" class="skip-setup-btn">Skip 2FA Setup</a>
 {% endblock %}

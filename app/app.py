@@ -27,7 +27,3 @@ def create_app(db_name_prefix=None):
     app.register_blueprint(account_controller.account_blueprint)
     app.register_blueprint(property_controller.property_blueprint)
     return app
-
-if __name__ == '__main__':
-    app = create_app()
-    app.run(debug=True)

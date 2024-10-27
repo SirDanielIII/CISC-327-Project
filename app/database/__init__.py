@@ -31,8 +31,8 @@ def initialize_db(app: Flask, db_name_prefix=None):
             # db doesn't exist, creating it...
             db.create_all()
             stamp()
-
-        # Upgrade the db to the latest schema
-        upgrade()
+        else:
+            # Upgrade the db to the latest schema
+            upgrade()
 
     return db
