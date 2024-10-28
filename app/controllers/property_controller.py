@@ -46,7 +46,7 @@ def property_details(id: int):
 
         found_property.address = address
         found_property.property_type = property_type
-        found_property.sqrFtg = sqrFtg
+        found_property.square_footage = sqrFtg
         found_property.bedrooms = bedrooms
         found_property.bathrooms = bathrooms
         found_property.rent_per_month = rent_price
