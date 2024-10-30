@@ -85,7 +85,8 @@ button {
 }
 .container {
     display: flex;
-    height: 100%;
+    flex: 1;
+    overflow: hidden;
     margin-bottom: 0.5rem;
 }
 .content-container {
