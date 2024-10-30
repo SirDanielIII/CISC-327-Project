@@ -22,7 +22,7 @@ class BaseTestClass(unittest.TestCase):
 
         with cls.app.app_context():
             cls.test_user = User(first_name=cls.user_first_name, last_name=cls.user_last_name, email=cls.user_email, 
-                            password=generate_password_hash(cls.user_password), account_type=AccountType.PROPERTY_OWNER)
+                            password=cls.user_password, account_type=AccountType.PROPERTY_OWNER)
             db.session.add(cls.test_user)
             db.session.commit()
             db.session.refresh(cls.test_user)
