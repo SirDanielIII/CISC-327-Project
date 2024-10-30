@@ -26,6 +26,14 @@ class AccountTests(BaseTestClass):
         self.assertIn(b'Setup 2FA', response.data)
         self.assertIn(b'Skip', response.data)
 
+    def test_verify_2fa_visible(self):
+        """Test the 2fa verficiation page visibility"""
+        self.loginTestUser()
+        self.enableTestUser2fa()
+        response = self.client.get('/verify_2fa')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Verify 2FA', response.data)
+
     def test_register_success(self):
         """Test a successful registration"""
         AccountTests.current_user_index+=1
@@ -59,6 +67,21 @@ class AccountTests(BaseTestClass):
         totp = TOTP(token_2fa)
 
         response = self.client.post('/setup_2fa', data=dict(
+            verification_code=totp.now()
+        ), follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Welcome to the Rental Management System', response.data)
+        self.assertIn(str.encode(self.user_first_name), response.data)
+        self.assertIn(str.encode(self.user_last_name), response.data)
+
+    def test_verify_2fa(self):
+        """Test verify 2FA authentication"""
+        self.loginTestUser()
+
+        token_2fa = self.enableTestUser2fa()
+        totp = TOTP(token_2fa)
+
+        response = self.client.post('/verify_2fa', data=dict(
             verification_code=totp.now()
         ), follow_redirects=True)
         self.assertEqual(response.status_code, 200)

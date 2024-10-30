@@ -44,6 +44,14 @@ class BaseTestClass(unittest.TestCase):
         self.client = self.app.test_client()
         return super().setUp()
     
+    def enableTestUser2fa(self) -> str:
+        with self.app.app_context():
+            # Enable 2FA and return the 2FA secret token
+            test_user = db.session.query(User).filter_by(email=self.user_email).scalar()
+            test_user.is_2fa_auth_enabled = True
+            db.session.commit()
+            return test_user.token_2fa
+    
     def loginTestUser(self):
         response = self.client.post('/login', data=dict(
             email=self.user_email,
