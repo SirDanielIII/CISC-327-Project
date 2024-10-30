@@ -3,7 +3,7 @@ from ..database import db
 class Property(db.Model):
     __tablename__ = 'Properties'
     id = db.Column(db.Integer, primary_key=True)
-    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    owner_id = db.Column(db.Integer, db.ForeignKey('Users.id'), nullable=False)
     available = db.Column(db.Boolean, nullable=False, default=True)
     address = db.Column(db.String(150), nullable=False)
     bedrooms = db.Column(db.Integer, nullable=False)

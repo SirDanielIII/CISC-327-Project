@@ -20,7 +20,7 @@ def login():
 
         user: User = User.query.filter_by(email=email).scalar()
         if user:
-            if check_password_hash(user.password, password):
+            if user.is_password_valid(password):
                 flash('Logged in successfully!', category='success')
                 login_user(user)
                 return redirect('/' if redirect_url == None else redirect_url)
@@ -44,7 +44,7 @@ def register():
             flash('The email provided is already registered for an account! Please login instead.', 'error')
             return render_template('account/register.html')     
 
-        user = User(first_name=first_name, last_name=last_name, email=email, password=generate_password_hash(password), account_type=AccountType.PROPERTY_OWNER)
+        user = User(first_name=first_name, last_name=last_name, email=email, password=password, account_type=AccountType.PROPERTY_OWNER)
 
         db.session.add(user)
         db.session.commit()
