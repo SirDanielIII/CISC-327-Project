@@ -2,9 +2,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    /*min-height: 797px;    */
-    min-height: 797px;
-    height: auto;
+    height: 100%;
     border: 1px black solid;
 }
 .OutputOptionsBar {
@@ -50,6 +48,7 @@
 .PropertyTabs {
     display: flex;
     flex-wrap: wrap;
+    overflow-y: auto;
 }
 .propertyTab {
     width: 290px;
@@ -66,11 +65,17 @@
     left: 8px;
     top: 8px;
     position: absolute;
-    border: 1px black solid
+    border: 1px black solid;
+    cursor: pointer;
 }
 .selected {
     border: 2px black solid;
+}
+.selected .checkButton {
     background-color: #4a8536;
+}
+.hide-remove-btn {
+    display: none;
 }
 .property-form {
     margin: 1rem;

@@ -1,12 +1,18 @@
-body {
+html, body {
     margin: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: Poppins, sans-serif;
+}
+body {
+    display: flex;
+    flex-direction: column;
 }
 button {
     display: block;
     height: 72px;
     padding: 10px;
     font-size: 24px;
-    margin: 10px 0 10px 20px; /* Center the buttons with margin (top, right, bottom, left) */
     border-radius: 4px;
     text-align: left;
     border: 1px black solid;
@@ -16,45 +22,40 @@ button {
     color: #ffffff;
     cursor: pointer;
     width: 87%;
+    margin: 0.25rem
 }
 .selectedColor {
     background-color: #018786;
 }
 .Sidebar {
     width: 417px;
-    height: 797px;
+    height: 100%;
     border: 1px black solid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .Name {
     color: black;
     font-size: 24px;
-    font-family: Poppins, sans-serif;
     font-weight: 500;
     word-wrap: break-word;
-}
-.Name {
-    left: 1039px;
-    top: 73px;
-    text-align: right;
 }
 .nav-logo {
     aspect-ratio: 1;
     height: 4rem;
     cursor: pointer;
 }
-
 .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin: 1rem;
 }
-
 .unauth-btns-cont {
     display: flex;
     align-items: center;
 }
-
 .unauth-btn {
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
@@ -63,25 +64,44 @@ button {
     color: #ffffff;
     text-decoration: none;
 }
+.welcome-message {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #BB86FC; /* Accent color */
+}
+.subtitle {
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 40px;
+    color: #6026a7;
+    margin: 0.5rem 0;
+}
 .container {
     display: flex;
+    height: 100%;
+    margin-bottom: 0.5rem;
 }
-
 .content-container {
     margin-left: 1rem;
     flex-direction: column;
     justify-content: center;
     width: 100%;
 }
-
 .flashes {
     list-style-type: none;
+    padding: 0;
+    margin: 0;
+    color: white;
 }
-
+.flashes li {
+    padding: 0.25rem;
+    border: 1px black solid;
+    background: black;
+}
 .flashes .success {
-    color: green;
+    background: green;
 }
-
 .flashes .error {
-    color: red;
+    background: #b10000;
 }

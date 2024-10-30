@@ -1,26 +1,10 @@
-import sys
-import os
-sys.path.append(os.path.join(os.path.curdir, 'app'))
+from base_test_class import BaseTestClass
 
-import unittest
+class PropertyTests(BaseTestClass):
+    def setUp(self) -> None:
+        super().setUp()
+        self.loginTestUser()
 
-from app.app import create_app
-
-class PropertyTests(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls) -> None:
-        cls.app = create_app()
-        cls.app.config['TESTING'] = True
-        cls.client = cls.app.test_client()
-
-        cls.user_email = 'propertyowner@example.com'
-        cls.user_password = 'propertyowner'
-
-        cls.client.post('/register', data=dict(
-            email=cls.user_email,
-            password=cls.user_password
-        ))
-    
     def test_add_property(self):
         """Test Adding a property"""
         address = '12 Test St'
@@ -207,5 +191,6 @@ class PropertyTests(unittest.TestCase):
             property_ids=f'{property_id_1},{property_id_2}'
         ), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertNotIn(str.encode(property_id_1), response.data)
-        self.assertNotIn(str.encode(property_id_2), response.data)
+        property_detail_url = '/property_details/'
+        self.assertNotIn(str.encode(property_detail_url + property_id_1), response.data)
+        self.assertNotIn(str.encode(property_detail_url + property_id_2), response.data)

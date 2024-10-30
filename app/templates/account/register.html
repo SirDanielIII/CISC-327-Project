@@ -2,46 +2,18 @@
 {% block title %}Register{% endblock %}
 {% block head %}
     {{ super() }}
-    <style>
-        .input-form form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 0.5rem;
-        }
-        .input-form input {
-            width: 300px;
-            padding: 15px;
-            border: none;
-            border-radius: 30px;
-            margin-bottom: 10px;
-            font-size: 16px;
-            color: #FFFFFF;
-            background-color: #1F1B24;
-        }
-        .input-form button {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 700;
-            color: #FFFFFF;
-            background-color: #03DAC6; /* Button color */
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .input-form button:hover {
-            background-color: #018786;
-        }
-    </style>
+    <link rel="stylesheet" href="{{url_for('static', filename='account-style.css')}}">
 {% endblock %}
 
 {% block content %}
     <!-- Login form -->
     <div class="input-form">
         <form method="POST">
+            <input type="text" name="first_name" placeholder="First Name" required>
+            <input type="text" name="last_name" placeholder="Last Name" required>
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Password" required>
+            <label for="type">Account Type:</label>
             <select id="type" name="type">
                 <option value="tenant">Tenant</option>
                 <option value="propety-owner">Property Owner</option>

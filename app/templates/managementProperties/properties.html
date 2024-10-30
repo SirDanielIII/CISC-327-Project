@@ -8,7 +8,7 @@
 {% block content %}
     <div class="OutputPlacement">
         <div class="OutputOptionsBar">
-            <button class="OptionsButton"
+            <button id="removeBtn" class="OptionsButton hide-remove-btn"
                     onclick="removeSelected()">
                 Remove
             </button>
@@ -18,7 +18,7 @@
                 Add
             </button>
         </div>
-        <div class="PropertyTabs", id="PropertiesContainer">
+        <div class="PropertyTabs" id="PropertiesContainer">
             {% for property in properties %}
                 <div class = "propertyTab" id="{{ property.id }}">
                     <button class="view"
@@ -33,17 +33,44 @@
 
     <script>
         function toggleSelect(checkButton) {
-            const propertyTab = checkButton.parentElement;
-            const selected = propertyTab.classList.toggle('selected');
+            const parentPropertyTab = checkButton.parentElement;
+            const selected = parentPropertyTab.classList.toggle('selected');
+            const removeBtn = document.getElementById('removeBtn');
+
+            if (parentPropertyTab.classList.contains('selected')) {
+                if (removeBtn.classList.contains('hide-remove-btn')) {
+                    removeBtn.classList.remove('hide-remove-btn');
+                }
+                return;
+            }
+
+            const propertyTabs = document.querySelectorAll('.propertyTab');
+            for (let i = 0; i < propertyTabs.length; i++) {
+                const propertyTab = propertyTabs.item(i);
+                if (!propertyTab.classList.contains('selected')) {
+                    continue;
+                }
+
+                if (removeBtn.classList.contains('hide-remove-btn')) {
+                    removeBtn.classList.remove('hide-remove-btn');
+                }
+                return;
+            }
+
+            if (!removeBtn.classList.contains('hide-remove-btn')) {
+                removeBtn.classList.add('hide-remove-btn');
+            }
         }
         function removeSelected() {
             const propertyTabs = document.querySelectorAll('.propertyTab');
             const propertyIds = [];
             propertyTabs.forEach((propertyTab) => {
                 if (propertyTab.classList.contains('selected')) {
-                    propertyIds.push(propertyTab.id)
+                    propertyIds.push(propertyTab.id);
+                    propertyTab.classList.remove('selected');
                 }
             });
+
             const formData = new FormData();
             formData.append('property_ids', propertyIds.join(','));
             
