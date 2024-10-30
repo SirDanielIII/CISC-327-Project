@@ -5,4 +5,4 @@ class PublicTests(BaseTestClass):
         """Test the home page"""
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Welcome', response.data)
+        self.assertIn(b'Welcome to the Rental Management System', response.data)
