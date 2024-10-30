@@ -22,21 +22,35 @@
         .skip-setup-btn:hover {
             background-color: #434d4c;
         }
+        .instructions-cont {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .instructions-cont .text {
+            text-align: center;
+            margin: 0;
+        }
+        .secret-token {
+            margin: 0 0 0.5rem 0;
+            color: #3D3D3D;
+        }
     </style>
 {% endblock %}
 {% block content %}
-    <!-- Welcome Message -->
     <h1 class="welcome-message">2FA Setup</h1>
     <p class="subtitle">Secure your account by setting up 2FA using an authenticator app.</p>
-    <br>
-    <p>2FA Secret Token: {{ current_user.token_2fa }}</p>
-    <p class="subtitle">Enter any 6 digits below (FE Placeholder).</p>
-    <br>
-    <div class="input-form">
-        <form method="POST">
-            <input type="text" name="verification_code" placeholder="Verification Code" required>
-            <button type="submit">Setup 2FA</button>
-        </form>
-        <button onclick="location.href='/'" class="skip-setup-btn">Skip 2FA Setup</a>
+    <div class="instructions-cont">
+        <img src="data:image/png;base64, {{ qr_code }}" alt="Secret Token" style="width:200px;height:200px"/>
+        <p class="secret-token">2FA Secret Token: {{ current_user.token_2fa }}</p>
+        <p class="text">Scan the QR Code with an authenticator app such as Microsoft or Google Authenticator, and enter the 6 digits from the app below.</p>
+        <p class="text">Alternatively, add the 2FA Secret Token above to an authenticator app manually.</p>
+        <div class="input-form">
+            <form method="POST">
+                <input type="text" name="verification_code" placeholder="Verification Code" required pattern="\d{6}">
+                <button type="submit">Setup 2FA</button>
+            </form>
+            <button onclick="location.href='/'" class="skip-setup-btn">Skip 2FA Setup</a>
+        </div>
     </div>
 {% endblock %}

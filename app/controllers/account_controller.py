@@ -4,6 +4,7 @@ from ..models.user_model import User
 from ..database import db
 from ..enums.AccountType import AccountType
 from .helpers.anonymous_only import anonymous_only
+from .helpers.qr_code_generator import get_b64_encoded_qr_code
 
 account_blueprint = Blueprint('account', __name__)
 
@@ -84,7 +85,11 @@ def setup_2fa():
             return redirect('/')
         else:
             flash('The OTP entered did not match the expected value. Please try again.',category='error')
-    return render_template('account/setup_2fa.html')
+
+    # Generating 2FA Authenticator app qr code
+    b64_qr_code = get_b64_encoded_qr_code(current_user.get_otp_provisioning_uri())
+
+    return render_template('account/setup_2fa.html', qr_code=b64_qr_code)
 
 @account_blueprint.route('/verify_2fa', methods=['GET', 'POST'])
 @login_required
