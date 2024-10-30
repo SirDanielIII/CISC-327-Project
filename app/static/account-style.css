@@ -19,6 +19,9 @@
     color: #FFFFFF;
     background-color: #1F1B24;
 }
+.input-form label {
+    margin-bottom: 10px;
+}
 .input-form form button {
     padding: 15px 30px;
     border: none;

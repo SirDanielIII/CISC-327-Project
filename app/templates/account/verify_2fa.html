@@ -5,16 +5,15 @@
     <link rel="stylesheet" href="{{url_for('static', filename='account-style.css')}}">
 {% endblock %}
 {% block content %}
-    <!-- Welcome Message -->
     <h1 class="welcome-message">2FA Verification</h1>
-    <p class="subtitle">Complete authentication by verifying your setup 2FA.</p>
+    <p class="subtitle">Complete authentication by verifying your setup 2FA method.</p>
     <br>
-    <p class="subtitle">Enter any 6 digits below (FE Placeholder).</p>
+    <p class="text">Enter the 6 digits found in the authenticator app used to register 2FA authentication with this account.</p>
     <br>
     <div class="input-form">
         <form method="POST">
-            <input type="text" name="verification_code" placeholder="Verification Code" required>
-            <button type="submit">Setup 2FA</button>
+            <input type="text" name="verification_code" placeholder="Verification Code" required pattern="\d{6}">
+            <button type="submit">Verify 2FA</button>
         </form>
     </div>
 {% endblock %}

@@ -36,7 +36,7 @@ button {
     align-items: center;
 }
 .Name {
-    color: black;
+    color: #8e3fee;
     font-size: 24px;
     font-weight: 500;
     word-wrap: break-word;
@@ -77,9 +77,16 @@ button {
     color: #6026a7;
     margin: 0.5rem 0;
 }
+.text {
+    color: #8e3fee;
+    font-size: 20px;
+    font-weight: 400;
+    margin: 0.5rem 0;
+}
 .container {
     display: flex;
-    height: 100%;
+    flex: 1;
+    overflow: hidden;
     margin-bottom: 0.5rem;
 }
 .content-container {

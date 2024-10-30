@@ -36,8 +36,21 @@ class BaseTestClass(unittest.TestCase):
             os.remove(db.db_path)
 
     def setUp(self) -> None:
+        with self.app.app_context():
+            # Disable any 2FA that may have been setup in a test case
+            self.test_user = db.session.get(User, self.test_user.id)
+            self.test_user.is_2fa_auth_enabled = False
+            db.session.commit()
         self.client = self.app.test_client()
         return super().setUp()
+    
+    def enableTestUser2fa(self) -> str:
+        with self.app.app_context():
+            # Enable 2FA and return the 2FA secret token
+            test_user = db.session.query(User).filter_by(email=self.user_email).scalar()
+            test_user.is_2fa_auth_enabled = True
+            db.session.commit()
+            return test_user.token_2fa
     
     def loginTestUser(self):
         response = self.client.post('/login', data=dict(

@@ -34,3 +34,7 @@ class User(UserMixin, db.Model):
     def is_otp_valid(self, user_otp: str) -> bool:
         totp = TOTP(self.token_2fa)
         return totp.verify(user_otp)
+    
+    def get_otp_provisioning_uri(self) -> str:
+        totp = TOTP(self.token_2fa)
+        return totp.provisioning_uri(name=self.email, issuer_name='Rental Management System')

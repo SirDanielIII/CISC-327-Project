@@ -1,4 +1,6 @@
 import unittest
+import re
+from pyotp import TOTP
 from base_test_class import BaseTestClass
 
 class AccountTests(BaseTestClass):
@@ -24,6 +26,14 @@ class AccountTests(BaseTestClass):
         self.assertIn(b'Setup 2FA', response.data)
         self.assertIn(b'Skip', response.data)
 
+    def test_verify_2fa_visible(self):
+        """Test the 2fa verficiation page visibility"""
+        self.loginTestUser()
+        self.enableTestUser2fa()
+        response = self.client.get('/verify_2fa')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Verify 2FA', response.data)
+
     def test_register_success(self):
         """Test a successful registration"""
         AccountTests.current_user_index+=1
@@ -44,11 +54,38 @@ class AccountTests(BaseTestClass):
     def test_setup_2fa(self):
         """Test setup 2FA authentication"""
         self.loginTestUser()
+
+        # Get the setup 2fa page to retrieve 2FA secret token
+        response = self.client.get('/setup_2fa')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Setup 2FA', response.data)
+        self.assertIn(b'Skip', response.data)
+
+        token_2fa_search = re.search('2FA Secret Token: ([\w\d]{32})', response.text, re.IGNORECASE)
+        self.assertIsNotNone(token_2fa_search)
+        token_2fa = token_2fa_search.group(1)
+        totp = TOTP(token_2fa)
+
         response = self.client.post('/setup_2fa', data=dict(
-            verification_code='123456'
+            verification_code=totp.now()
         ), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Welcome', response.data)
+        self.assertIn(b'Welcome to the Rental Management System', response.data)
+        self.assertIn(str.encode(self.user_first_name), response.data)
+        self.assertIn(str.encode(self.user_last_name), response.data)
+
+    def test_verify_2fa(self):
+        """Test verify 2FA authentication"""
+        self.loginTestUser()
+
+        token_2fa = self.enableTestUser2fa()
+        totp = TOTP(token_2fa)
+
+        response = self.client.post('/verify_2fa', data=dict(
+            verification_code=totp.now()
+        ), follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Welcome to the Rental Management System', response.data)
         self.assertIn(str.encode(self.user_first_name), response.data)
         self.assertIn(str.encode(self.user_last_name), response.data)
 
@@ -70,7 +107,7 @@ class AccountTests(BaseTestClass):
             email=self.user_email,
             password=self.user_password
         ), follow_redirects=True)
-        self.assertIn(b'Welcome', response.data)
+        self.assertIn(b'Welcome to the Rental Management System', response.data)
         self.assertNotIn(b'Login', response.data)
         self.assertNotIn(b'Register', response.data)
         self.assertIn(str.encode(self.user_first_name), response.data)
@@ -90,7 +127,7 @@ class AccountTests(BaseTestClass):
         self.loginTestUser()
         response = self.client.get('/logout', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Welcome', response.data)
+        self.assertIn(b'Welcome to the Rental Management System', response.data)
         self.assertIn(b'Login', response.data)
 
 if __name__ == "__main__":

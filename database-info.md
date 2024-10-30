@@ -23,7 +23,7 @@ flask db upgrade
 
 ### Model Developers
 
-After changing any models run the following command to create a new migration:
+After changing any models run the following command from the app directory to create a new migration:
 
 ```shell
 flask db migrate -m "Migration Name Here"
