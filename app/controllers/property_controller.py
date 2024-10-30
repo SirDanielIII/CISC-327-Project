@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, abort, url_for, flash
 from flask_login import login_required, current_user
 from .helpers.role_required_wrapper import role_required
+from .helpers.ensure_2fa_verified import ensure_2fa_verified
 from ..enums.AccountType import AccountType
 from ..models.property_model import Property
 from ..database import db
@@ -9,6 +10,7 @@ property_blueprint = Blueprint('property', __name__)
 
 @property_blueprint.route('/properties', methods=['GET', 'POST'])
 @login_required
+@ensure_2fa_verified
 @role_required(AccountType.PROPERTY_OWNER)
 def get_properties():
     if request.method == 'POST':
@@ -24,6 +26,7 @@ def get_properties():
 
 @property_blueprint.route('/property_details/<id>', methods=['GET', 'POST'])
 @login_required
+@ensure_2fa_verified
 @role_required(AccountType.PROPERTY_OWNER)
 def property_details(id: int):
     found_property = db.session.get(Property, id)
@@ -59,6 +62,7 @@ def property_details(id: int):
 
 @property_blueprint.route('/add_property', methods=['GET', 'POST'])
 @login_required
+@ensure_2fa_verified
 @role_required(AccountType.PROPERTY_OWNER)
 def add_property():
     if request.method == 'GET':
