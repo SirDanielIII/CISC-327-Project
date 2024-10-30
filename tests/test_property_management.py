@@ -105,9 +105,12 @@ class PropertyTests(BaseTestClass):
         property_id = response.request.path.split('/')[-1]
 
         address='9876 Changed Ave'
+        property_type='House'
+        sqrFtg='321'
         rent_price='2500'
         bedrooms='7'
         bathrooms='4'
+        availability='notAvailable'
 
         response = self.client.post(f'/property_details/{property_id}', data=dict(
             streetAddress=address,
@@ -125,7 +128,7 @@ class PropertyTests(BaseTestClass):
         self.assertIn(str.encode(bedrooms), response.data)
         self.assertIn(str.encode(bathrooms), response.data)
         self.assertIn(str.encode(rent_price), response.data)
-        self.assertIn(b'selected="selected"\n                    \n                    >Available', response.data)
+        self.assertIn(b'selected="selected"\n                    \n                >Not Available', response.data)
 
     def test_view_properties(self):
         """Test the properties page visibility and
