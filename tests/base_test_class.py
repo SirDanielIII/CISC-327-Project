@@ -20,6 +20,9 @@ class BaseTestClass(unittest.TestCase):
         cls.user_email = 'propertyowner@example.com'
         cls.user_password = 'propertyowner'
 
+        cls.user_logged_out_welcome_msg = str.encode("Welcome to the Rental Management System")
+        cls.user_logged_in_welcome_msg = str.encode(f"Welcome {cls.user_first_name}, to the Rental Management System")
+
         with cls.app.app_context():
             cls.test_user = User(first_name=cls.user_first_name, last_name=cls.user_last_name, email=cls.user_email, 
                             password=cls.user_password, account_type=AccountType.PROPERTY_OWNER)
@@ -58,13 +61,13 @@ class BaseTestClass(unittest.TestCase):
             password=self.user_password
         ), follow_redirects=True)
         self.assertIn(b'Welcome', response.data)
-        self.assertNotIn(b'Login', response.data)
-        self.assertNotIn(b'Register', response.data)
+        self.assertNotIn(b'LOGIN', response.data)
+        self.assertNotIn(b'REGISTER', response.data)
         self.assertIn(str.encode(self.user_first_name), response.data)
         self.assertIn(str.encode(self.user_last_name), response.data)
 
     def logoutUser(self):
         response = self.client.get('/logout', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Welcome', response.data)
+        self.assertIn(self.user_logged_out_welcome_msg, response.data)
         self.assertIn(b'Login', response.data)

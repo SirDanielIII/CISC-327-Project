@@ -2,31 +2,44 @@
 <html lang="en">
 <head>
     {% block head %}
-    <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %} - Rental Management</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
-    <!-- CSS Styles -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <!-- Favicon-->
-     <link rel="icon" href="{{url_for('static', filename='favicon.ico')}}">
+        <meta charset="UTF-8">
+        <title>{% block title %}{% endblock %} | Lease Fifty Seven</title>
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Quicksand:wght@400&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+        <!-- CSS Styles -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        
+        <!-- Favicon-->
+        <link rel="icon" type="image/svg+xml" href="{{url_for('static', filename='logofavicon.svg')}}">
+        <!-- Alternative icon for browsers that do not support svg icons-->
+        <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='favicon.ico')}}">
     {% endblock %}
 </head>
-<body>
+<body> 
     <!--Main nav start-->
     <div class="navbar">
-        <img class="nav-logo" src="{{url_for('static', filename='favicon.ico')}}" onclick="location.href='/'">
-        {% if current_user.is_authenticated %}
-        <div class="unauth-btns-cont">
-            <h3 class="Name">{{current_user.first_name}} {{current_user.last_name}}</h3>
-            <a class="unauth-btn" href="/logout">Logout</a>
+        <div class="left">
+            <img class="nav-logo" src="{{url_for('static', filename='logofavicon.svg')}}" onclick="location.href='/'">
         </div>
-        {% else %}
+        <div class="nav-title">
+            <h1 class="LeaseFiftySeven">LEASE FIFTY SEVEN</h1>
+            <h3 class="RentalManagement">RENTAL MANAGEMENT</h3>
+        </div>
+        <div class="right">
             <div class="unauth-btns-cont">
-                <a class="unauth-btn" href="/login">Login</a>
-                <a class="unauth-btn" href="/register">Register</a>
+                {% if current_user.is_authenticated %}
+                    <h3 class="Name">{{current_user.first_name}} {{current_user.last_name}}</h3>
+                    <a class="unauth-btn" href="/logout">LOGOUT</a>
+                    </div>
+                {% else %}
+                    <a class="unauth-btn" href="/login">LOGIN</a>
+                    <a class="unauth-btn" href="/register">REGISTER</a>
+                {% endif %}
             </div>
-        {% endif %}
+        </div>
     </div>
     <!--main nav end-->
     <!--Messages Start-->

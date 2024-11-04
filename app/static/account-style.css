@@ -11,28 +11,41 @@
 }
 .input-form input, select {
     width: 300px;
-    padding: 15px;
+    padding: 5px;
     border: none;
-    border-radius: 30px;
-    margin-bottom: 10px;
-    font-size: 16px;
-    color: #FFFFFF;
-    background-color: #1F1B24;
+    /* border-radius: 30px; */
+    border-bottom: 2px solid #AE9E84;
+    font-size: 20px;
+    color: #000000;
+    background-color: transparent;
+    font-family: 'Quicksand', sans-serif;
+}
+.input-form input {
+    margin: 40px 0 0;
+}
+.input-form select {
+    margin: 5px 0 0;
 }
 .input-form label {
+    margin-top: 40px;
     margin-bottom: 10px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 20px;
 }
 .input-form form button {
-    padding: 15px 30px;
+    padding: 15px 50px;
     border: none;
-    border-radius: 30px;
-    font-size: 16px;
-    font-weight: 700;
+    border-radius: 10px;
+    margin: 20px 0 0;
+    font-size: 20px;
+    font-weight: 500;
     color: #FFFFFF;
-    background-color: #03DAC6; /* Button color */
+    background-color: #708671; /* Button color */
     cursor: pointer;
+    font-family: 'Quicksand', sans-serif;
+    letter-spacing: 1px;
     transition: background-color 0.3s ease;
 }
 .input-form form button:hover {
-    background-color: #018786;
+    background-color: #636363;
 }
