@@ -48,13 +48,13 @@ def register():
 
         if email == None or email == '':
             flash('Please enter a first name to register an account.', 'error')
-            return render_template('account/register.html')
+            return redirect('/register')
 
         user: User = User.query.filter_by(email=email).scalar()
         if user:
             # A user with this email already exists
             flash('The email provided is already registered for an account! Please login instead.', 'error')
-            return render_template('account/register.html')
+            return redirect('/register')
         
         validation_error = False
 
@@ -70,7 +70,7 @@ def register():
             # Password does not meet requirements
             # At least eight digiits, has an upper and lower case letter, and one number
             flash('The password entered does not meet the requirements for a strong password.', 'error')
-            return render_template('account/register.html')
+            return redirect('/register')
         
         if confirm_password == None or password != confirm_password:
             # Passwords do not match
@@ -78,7 +78,7 @@ def register():
             flash('The confirmed password does not match the entered password!', 'error')
             
         if validation_error:
-            return render_template('account/register.html')
+            return redirect('/register')
 
         user = User(first_name=first_name, last_name=last_name, email=email, password=password, account_type=AccountType.PROPERTY_OWNER)
 
