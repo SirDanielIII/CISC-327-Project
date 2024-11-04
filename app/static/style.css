@@ -135,10 +135,12 @@ button {
     border-top: 1px #2B4156 solid;
 }
 .content-container {
-    margin-left: 1rem;
     flex-direction: column;
     justify-content: center;
     width: 100%;
+}
+.container:has(.Sidebar) .content-container {
+    margin-left: 1rem;
 }
 .flashes {
     list-style-type: none;

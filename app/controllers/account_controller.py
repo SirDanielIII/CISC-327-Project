@@ -14,8 +14,21 @@ account_blueprint = Blueprint('account', __name__)
 def login():
     if request.method == 'POST':
         # Perform authentication here
-        email = request.form['email']
-        password = request.form['password']
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        validation_error = False
+
+        if email == None or email == '':
+            validation_error = True
+            flash("Please enter a valid email address to login.", 'error')
+        
+        if password == None or password == '':
+            validation_error = False
+            flash("Please enter a valid email address to login.", 'error')
+
+        if validation_error:
+            return redirect(request.url)
 
         redirect_url = request.args.get('next')
 
@@ -32,8 +45,9 @@ def login():
                 else:
                     return redirect('/' if redirect_url == None else redirect_url)
 
-        # If failure, flash an error message and render_template
+        # If failure, flash an error message and redirect to avoid resubmission
         flash('The email or password provided is invalid! Please verify it has been entered correctly.', 'error')
+        return redirect(request.url)
     return render_template('account/login.html')
 
 @account_blueprint.route('/register', methods=['GET', 'POST'])
@@ -92,7 +106,7 @@ def register():
 @account_blueprint.route('/logout')
 @login_required
 def logout():
-    session['2fa_verified'] = False
+    session.pop('2fa_verified', None)
     logout_user()
     flash('Logged out successfully!', category='success')
     return redirect('/')
@@ -105,7 +119,11 @@ def setup_2fa():
         return redirect('/')
 
     if request.method == 'POST':
-        otp = request.form['verification_code']
+        otp = request.form.get('verification_code')
+        if otp == None or otp == '':
+            flash("Please enter a valid OTP to completed 2FA verification.", category='error')
+            return redirect(request.url)
+        
         if current_user.is_otp_valid(otp):
             current_user.is_2fa_auth_enabled = True
             db.session.commit()
@@ -115,6 +133,7 @@ def setup_2fa():
             return redirect('/')
         else:
             flash('The OTP entered did not match the expected value. Please try again.',category='error')
+            return redirect(request.url)
 
     # Generating 2FA Authenticator app qr code
     b64_qr_code = get_b64_encoded_qr_code(current_user.get_otp_provisioning_uri())
@@ -132,7 +151,11 @@ def verify_2fa():
         return redirect('/')
 
     if request.method == 'POST':
-        otp = request.form['verification_code']
+        otp = request.form.get('verification_code')
+        if otp == None or otp == '':
+            flash("Please enter a valid OTP to completed 2FA verification.", category='error')
+            return redirect(request.url)
+
         if current_user.is_otp_valid(otp):
             session['2fa_verified'] = True
             flash('Successfully verified 2FA authentication.', category='success')
@@ -141,4 +164,5 @@ def verify_2fa():
             return redirect('/' if redirect_url == None else redirect_url)
         else:
             flash('The OTP entered did not match the expected value. Please try again.',category='error')
+            return redirect(request.url)
     return render_template('account/verify_2fa.html')
