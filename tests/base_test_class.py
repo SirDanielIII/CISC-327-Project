@@ -58,8 +58,8 @@ class BaseTestClass(unittest.TestCase):
             password=self.user_password
         ), follow_redirects=True)
         self.assertIn(b'Welcome', response.data)
-        self.assertNotIn(b'Login', response.data)
-        self.assertNotIn(b'Register', response.data)
+        self.assertNotIn(b'LOGIN', response.data)
+        self.assertNotIn(b'REGISTER', response.data)
         self.assertIn(str.encode(self.user_first_name), response.data)
         self.assertIn(str.encode(self.user_last_name), response.data)
 
