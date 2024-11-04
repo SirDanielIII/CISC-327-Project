@@ -44,7 +44,8 @@ class AccountTests(BaseTestClass):
             first_name=test_first_name,
             last_name=test_last_name,
             email=test_email,
-            password='testingpassword'
+            password='Testingpassword1',
+            confirm_password='Testingpassword1'
         ), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Setup 2FA', response.data)

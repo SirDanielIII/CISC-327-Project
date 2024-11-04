@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect, request, flash, session
 from flask_login import login_user, login_required, logout_user, current_user
+import re
 from ..models.user_model import User
 from ..database import db
 from ..enums.AccountType import AccountType
@@ -39,16 +40,45 @@ def login():
 @anonymous_only
 def register():
     if request.method == 'POST':
-        first_name = request.form['first_name']
-        last_name = request.form['last_name']
-        email = request.form['email']
-        password = request.form['password']
-        
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+
+        if email == None or email == '':
+            flash('Please enter a first name to register an account.', 'error')
+            return render_template('account/register.html')
+
         user: User = User.query.filter_by(email=email).scalar()
         if user:
             # A user with this email already exists
             flash('The email provided is already registered for an account! Please login instead.', 'error')
-            return render_template('account/register.html')     
+            return render_template('account/register.html')
+        
+        validation_error = False
+
+        if first_name == None or first_name == '':
+            validation_error = True
+            flash('Please enter a first name to register an account.', 'error')
+
+        if last_name == None or last_name == '':
+            validation_error = True
+            flash('Please enter a last name to register an account.', 'error')
+
+        if password == None or not re.match(r"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$", password):
+            # Password does not meet requirements
+            # At least eight digiits, has an upper and lower case letter, and one number
+            flash('The password entered does not meet the requirements for a strong password.', 'error')
+            return render_template('account/register.html')
+        
+        if confirm_password == None or password != confirm_password:
+            # Passwords do not match
+            validation_error = True
+            flash('The confirmed password does not match the entered password!', 'error')
+            
+        if validation_error:
+            return render_template('account/register.html')
 
         user = User(first_name=first_name, last_name=last_name, email=email, password=password, account_type=AccountType.PROPERTY_OWNER)
 

@@ -3,6 +3,9 @@
     flex-direction: column;
     align-items: center;
 }
+.input-form .wrong-page-btn {
+    text-decoration: none;
+}
 .input-form form {
     display: flex;
     flex-direction: column;

@@ -18,7 +18,7 @@ class BaseTestClass(unittest.TestCase):
         cls.user_first_name = 'Property'
         cls.user_last_name = 'Owner'
         cls.user_email = 'propertyowner@example.com'
-        cls.user_password = 'propertyowner'
+        cls.user_password = 'Propertyowner1'
 
         cls.user_logged_out_welcome_msg = str.encode("Welcome to the Rental Management System")
         cls.user_logged_in_welcome_msg = str.encode(f"Welcome {cls.user_first_name}, to the Rental Management System")
