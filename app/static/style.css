@@ -3,6 +3,7 @@ html, body {
     height: 100%;
     overflow: hidden;
     font-family: Poppins, sans-serif;
+    background-color: #E9E5DC;
 }
 body {
     display: flex;
@@ -35,6 +36,43 @@ button {
     flex-direction: column;
     align-items: center;
 }
+.LeaseFiftySeven {
+    left: 50%;
+    top: 25px;
+    position: absolute;
+    transform: translateX(-50%);
+    text-align: center;
+    color: #2B4156;
+    font-size: 32px;
+    font-family: 'Playfair Display', serif; /* Add font-family in quotes */
+    font-weight: 400;
+    letter-spacing: 5px;
+}
+.RentalManagement {
+    left: 50%;
+    top: 65px;
+    position: absolute;
+    transform: translateX(-50%);
+    text-align: center;
+    color: black;
+    font-size: 19px;
+    font-family: 'Quicksand', sans-serif; /* Add font-family in quotes */
+    font-weight: 400;
+    letter-spacing: 10px;
+}
+.NavOptionsDivider1, .NavOptionsDivider2 {
+    width: 100%; 
+    height: 1px; 
+    top: 105px; 
+    left: 0;
+    position: absolute;
+    border: none;
+    background-color: #2B4156;
+}
+.NavOptionsDivider2 {
+    top: 112px; 
+}
+
 .Name {
     color: #8e3fee;
     font-size: 24px;
@@ -45,12 +83,15 @@ button {
     aspect-ratio: 1;
     height: 4rem;
     cursor: pointer;
+    padding: right 20px;;
 }
 .navbar {
+    height: 105px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 1rem;
+    position: relative;
+    padding: 0 20px;
 }
 .unauth-btns-cont {
     display: flex;
@@ -58,12 +99,14 @@ button {
 }
 .unauth-btn {
     padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    background-color: #018786;
+    border-radius: 0.2rem;
+    background-color: #708671;
     margin: 0 0.25rem;
     color: #ffffff;
     text-decoration: none;
+    font-family: 'Quicksand', sans-serif;
 }
+
 .welcome-message {
     font-size: 48px;
     font-weight: 700;

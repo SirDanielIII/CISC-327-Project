@@ -1,15 +1,28 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static', filename='homePage.css')}}">
+{% endblock %}
+
 {% block content %}
-    <!-- Welcome Message -->
-    <h1 class="welcome-message">Welcome to the Rental Management System</h1>
-    <p class="subtitle">Effortlessly manage your rental properties and tenants.</p>
-    {% if not current_user.is_authenticated %}
-        <br>
-        <p class="subtitle">Login or register to get started!</p>
-        <div class="unauth-btns-cont">
-            <a class="unauth-btn" href="/login">Login</a>
-            <a class="unauth-btn" href="/register">Register</a>
+
+    <div class="ImagePlacement">
+        <!-- <div class="ImageWrapper">
+            <img class="RentalImage" src="https://i.pinimg.com/736x/84/ee/be/84eebe02452e0400dd955c9be54b99a8.jpg" />
+        </div> -->
+        <div class="WhiteTransparentDivider"></div>
+        <div class="TransparentDivider">
+            <div class="WelcomeMessage1">Effortlessly manage your rental properties and tenants</div>
+            <div class="GetStartedMessage">Login or register to get started</div>
+            {% if not current_user.is_authenticated %}
+                <!-- <p class="subtitle">Login or register to get started!</p> -->
+                <div class="unauth-btns-cont">
+                    <a class="LoginButton" href="/login">LOGIN</a>
+                    <a class="RegisterButton" href="/register">REGISTER</a>
+                </div>
+            {% endif %}
         </div>
-    {% endif %}
+    </div>
 {% endblock %}

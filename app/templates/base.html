@@ -3,19 +3,29 @@
 <head>
     {% block head %}
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %} - Rental Management</title>
+    <title>{% block title %}{% endblock %} | Lease Fifty Seven</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Quicksand:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
     <!-- CSS Styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='homePage.css') }}">
+    
     <!-- Favicon-->
      <link rel="icon" href="{{url_for('static', filename='favicon.ico')}}">
+     <link rel="icon" href="{{url_for('static', filename='logofavicon.svg')}}">
     {% endblock %}
 </head>
-<body>
+<body> 
     <!--Main nav start-->
     <div class="navbar">
-        <img class="nav-logo" src="{{url_for('static', filename='favicon.ico')}}" onclick="location.href='/'">
+        <div class="LeaseFiftySeven">LEASE FIFTY SEVEN</div>
+        <div class="RentalManagement">RENTAL MANAGEMENT</div>
+        <div class="NavOptionsDivider1"></div>
+        <div class="NavOptionsDivider2"></div>
+        <img class="nav-logo" src="{{url_for('static', filename='logofavicon.svg')}}" onclick="location.href='/'">
         {% if current_user.is_authenticated %}
         <div class="unauth-btns-cont">
             <h3 class="Name">{{current_user.first_name}} {{current_user.last_name}}</h3>
@@ -23,12 +33,13 @@
         </div>
         {% else %}
             <div class="unauth-btns-cont">
-                <a class="unauth-btn" href="/login">Login</a>
-                <a class="unauth-btn" href="/register">Register</a>
+                <a class="unauth-btn" href="/login">LOGIN</a>
+                <a class="unauth-btn" href="/register">REGISTER</a>
             </div>
         {% endif %}
     </div>
     <!--main nav end-->
+
     <!--Messages Start-->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
