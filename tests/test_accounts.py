@@ -70,7 +70,7 @@ class AccountTests(BaseTestClass):
             verification_code=totp.now()
         ), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Welcome to the Rental Management System', response.data)
+        self.assertIn(self.user_logged_in_welcome_msg, response.data)
         self.assertIn(str.encode(self.user_first_name), response.data)
         self.assertIn(str.encode(self.user_last_name), response.data)
 
@@ -85,7 +85,7 @@ class AccountTests(BaseTestClass):
             verification_code=totp.now()
         ), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Welcome to the Rental Management System', response.data)
+        self.assertIn(self.user_logged_in_welcome_msg, response.data)
         self.assertIn(str.encode(self.user_first_name), response.data)
         self.assertIn(str.encode(self.user_last_name), response.data)
 
@@ -107,7 +107,7 @@ class AccountTests(BaseTestClass):
             email=self.user_email,
             password=self.user_password
         ), follow_redirects=True)
-        self.assertIn(b'Welcome to the Rental Management System', response.data)
+        self.assertIn(self.user_logged_in_welcome_msg, response.data)
         self.assertNotIn(b'LOGIN', response.data)
         self.assertNotIn(b'LOGIN', response.data)
         self.assertIn(str.encode(self.user_first_name), response.data)
@@ -127,7 +127,7 @@ class AccountTests(BaseTestClass):
         self.loginTestUser()
         response = self.client.get('/logout', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Welcome to the Rental Management System', response.data)
+        self.assertIn(self.user_logged_out_welcome_msg, response.data)
         self.assertIn(b'LOGIN', response.data)
 
 if __name__ == "__main__":

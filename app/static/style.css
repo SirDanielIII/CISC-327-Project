@@ -19,65 +19,52 @@ button {
     border: 1px black solid;
 }
 .secondary-nav-btn {
-    background-color:#03dac6;
+    background-color: #708671;
     color: #ffffff;
     cursor: pointer;
     width: 87%;
     margin: 0.25rem
 }
+.secondary-nav-btn:hover {
+    background-color: #636363;
+}
 .selectedColor {
-    background-color: #018786;
+    background-color: #636363;
 }
 .Sidebar {
     width: 417px;
+    min-width: 196px;
     height: 100%;
-    border: 1px black solid;
+    border-right: 1px black solid;
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: auto;
+    padding-top: 0.5rem;
 }
 .LeaseFiftySeven {
-    left: 50%;
-    top: 25px;
-    position: absolute;
-    transform: translateX(-50%);
     text-align: center;
     color: #2B4156;
     font-size: 32px;
     font-family: 'Playfair Display', serif; /* Add font-family in quotes */
     font-weight: 400;
     letter-spacing: 5px;
+    margin: 0;
 }
 .RentalManagement {
-    left: 50%;
-    top: 65px;
-    position: absolute;
-    transform: translateX(-50%);
     text-align: center;
     color: black;
     font-size: 19px;
     font-family: 'Quicksand', sans-serif; /* Add font-family in quotes */
     font-weight: 400;
     letter-spacing: 10px;
+    margin: 0;
 }
-.NavOptionsDivider1, .NavOptionsDivider2 {
-    width: 100%; 
-    height: 1px; 
-    top: 105px; 
-    left: 0;
-    position: absolute;
-    border: none;
-    background-color: #2B4156;
-}
-.NavOptionsDivider2 {
-    top: 112px; 
-}
-
 .Name {
-    color: #8e3fee;
+    color: #2B4156;
     font-size: 24px;
     font-weight: 500;
-    word-wrap: break-word;
+    white-space: nowrap;
 }
 .nav-logo {
     aspect-ratio: 1;
@@ -90,8 +77,21 @@ button {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: relative;
     padding: 0 20px;
+    border-bottom: 1px #2B4156 solid;
+}
+.navbar .left {
+    flex-grow: 1;
+    flex-basis: 0;
+}
+.navbar .right {
+    flex-grow: 1;
+    flex-basis: 0;
+    display: flex;
+    justify-content: flex-end;
+}
+.nav-title {
+    white-space: nowrap;
 }
 .unauth-btns-cont {
     display: flex;
@@ -106,22 +106,23 @@ button {
     text-decoration: none;
     font-family: 'Quicksand', sans-serif;
 }
-
+.unauth-btn:hover {
+    background-color: #636363;
+}
 .welcome-message {
     font-size: 48px;
     font-weight: 700;
     margin-bottom: 20px;
-    color: #BB86FC; /* Accent color */
+    color: #2B4156; /* Accent color */
 }
 .subtitle {
     font-size: 24px;
     font-weight: 400;
-    margin-bottom: 40px;
-    color: #6026a7;
+    color: black;
     margin: 0.5rem 0;
 }
 .text {
-    color: #8e3fee;
+    color: #2B4156;
     font-size: 20px;
     font-weight: 400;
     margin: 0.5rem 0;
@@ -130,7 +131,8 @@ button {
     display: flex;
     flex: 1;
     overflow: hidden;
-    margin-bottom: 0.5rem;
+    margin: 0.5rem 0;
+    border-top: 1px #2B4156 solid;
 }
 .content-container {
     margin-left: 1rem;

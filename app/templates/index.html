@@ -7,23 +7,15 @@
 {% endblock %}
 
 {% block content %}
-
-    <div class="ImagePlacement">
-        <!-- <div class="ImageWrapper">
-            <img class="RentalImage" src="https://i.pinimg.com/736x/84/ee/be/84eebe02452e0400dd955c9be54b99a8.jpg" />
-        </div> -->
-        <div class="WhiteTransparentDivider"></div>
-        <div class="TransparentDivider">
-            <!-- <h1 class="WelcomeMessage">Welcome to the Rental Management System</h1> -->
-            <div class="WelcomeMessage1">Welcome to the Rental Management System</div>
-            <div class="GetStartedMessage">Login or register to get started</div>
-            {% if not current_user.is_authenticated %}
-                <!-- <p class="subtitle">Login or register to get started!</p> -->
-                <div class="unauth-btns-cont">
-                    <a class="LoginButton" href="/login">LOGIN</a>
-                    <a class="RegisterButton" href="/register">REGISTER</a>
-                </div>
-            {% endif %}
-        </div>
+    <div class="WhiteTransparentDivider">
+        {% if not current_user.is_authenticated %}
+            <h1 class="WelcomeMessage1">Welcome to the Rental Management System</h1>
+            <h3 class="GetStartedMessage">Login or register to get started!</h3>
+            <a class="LoginButton" href="/login">LOGIN</a>
+            <a class="RegisterButton" href="/register">REGISTER</a>
+        {% else %}
+            <h1 class="WelcomeMessage1">Welcome {{ current_user.first_name }}, to the Rental Management System</h1>
+            <h3 class="GetStartedMessage">Click on any link from the sidebar to get started!</h3>
+        {% endif %}
     </div>
 {% endblock %}
