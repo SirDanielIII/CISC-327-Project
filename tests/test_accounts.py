@@ -62,7 +62,7 @@ class AccountTests(BaseTestClass):
         self.assertIn(b'Setup 2FA', response.data)
         self.assertIn(b'Skip', response.data)
 
-        token_2fa_search = re.search('2FA Secret Token: ([\w\d]{32})', response.text, re.IGNORECASE)
+        token_2fa_search = re.search(r'2FA Secret Token: ([\w\d]{32})', response.text, re.IGNORECASE)
         self.assertIsNotNone(token_2fa_search)
         token_2fa = token_2fa_search.group(1)
         totp = TOTP(token_2fa)
