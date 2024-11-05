@@ -57,20 +57,20 @@
     {% if current_user.is_authenticated and current_user.account_type.value == 2 %}
     <div class="Sidebar">
         <button class="secondary-nav-btn">
-            Messages
+            MESSAGES
         </button>
         <button class="secondary-nav-btn">
-            Tenants
+            TENANTS
         </button>
         <button class="secondary-nav-btn">
-            Requests
+            REQUESTS
         </button>
         <button class="secondary-nav-btn {% block properties_classes %}{% endblock %}"
                 onclick="location.href='/properties'">
-            Properties
+            PROPERTIES
         </button>
         <button class="secondary-nav-btn">
-            Reports and Analytics
+            REPORTS AND ANALYTICS
         </button>
     </div>
     {% endif %}
