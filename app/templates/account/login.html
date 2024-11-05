@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 {% block title %}Login{% endblock %}
 {% block head %}
-    {{ super() }}
-    <link rel="stylesheet" href="{{url_for('static', filename='account-style.css')}}">
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static', filename='account-style.css')}}">
 {% endblock %}
 
 {% block content %}
-    <!-- Login form -->
-    <div class="input-form">
-        <form method="POST">
-            <input type="email" name="email" placeholder="Email" value="{{ email | default('') }}" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">LOGIN</button>
-        </form>
-        <p>Don't have an account? <a class="wrong-page-btn" href="/register">Register</a> now!</p>
-    </div>
+<!-- Login form -->
+<div class="input-form">
+    <form method="POST">
+        <input type="email" name="email" placeholder="Email" value="{{ email | default('') }}" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">LOGIN</button>
+    </form>
+    <p>Don't have an account? <a class="wrong-page-btn" href="/register">Register</a> now!</p>
+</div>
 {% endblock %}

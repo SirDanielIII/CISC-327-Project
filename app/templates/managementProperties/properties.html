@@ -1,84 +1,84 @@
 {% extends "base.html" %}
 {% block title %}Managed Properties{% endblock %}
 {% block head %}
-    {{ super() }}
-    <link rel="stylesheet" href="{{url_for('static', filename='managementAccount.css')}}">
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static', filename='managementAccount.css')}}">
 {% endblock %}
 {% block properties_classes %}selectedColor{% endblock %}
 {% block content %}
-    <div class="OutputPlacement">
-        <div class="OutputOptionsBar">
-            <button id="removeBtn" class="OptionsButton hide-remove-btn"
-                    onclick="removeSelected()">
-                Remove
-            </button>
-            <button class="OptionsButton"
-                    style="margin-right: 1rem;"
-                    onclick="location.href='/add_property'">
-                Add
-            </button>
-        </div>
-        <div class="PropertyTabs" id="PropertiesContainer">
-            {% for property in properties %}
-                <div class = "propertyTab" id="{{ property.id }}">
-                    <button class="view"
-                            onclick="location.href='/property_details/{{ property.id }}'">
-                        view
-                    </button>
-                    <div class="checkButton" onclick="toggleSelect(this)"></div>
-                </div>
-            {% endfor %}
-        </div>
+<div class="OutputPlacement">
+    <div class="OutputOptionsBar">
+        <button id="removeBtn" class="OptionsButton hide-remove-btn"
+                onclick="removeSelected()">
+            Remove
+        </button>
+        <button class="OptionsButton"
+                style="margin-right: 1rem;"
+                onclick="location.href='/add_property'">
+            Add
+        </button>
     </div>
+    <div class="PropertyTabs" id="PropertiesContainer">
+        {% for property in properties %}
+        <div class="propertyTab" id="{{ property.id }}">
+            <button class="view"
+                    onclick="location.href='/property_details/{{ property.id }}'">
+                view
+            </button>
+            <div class="checkButton" onclick="toggleSelect(this)"></div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 
-    <script>
-        function toggleSelect(checkButton) {
-            const parentPropertyTab = checkButton.parentElement;
-            const selected = parentPropertyTab.classList.toggle('selected');
-            const removeBtn = document.getElementById('removeBtn');
+<script>
+    function toggleSelect(checkButton) {
+        const parentPropertyTab = checkButton.parentElement;
+        const selected = parentPropertyTab.classList.toggle('selected');
+        const removeBtn = document.getElementById('removeBtn');
 
-            if (parentPropertyTab.classList.contains('selected')) {
-                if (removeBtn.classList.contains('hide-remove-btn')) {
-                    removeBtn.classList.remove('hide-remove-btn');
-                }
-                return;
+        if (parentPropertyTab.classList.contains('selected')) {
+            if (removeBtn.classList.contains('hide-remove-btn')) {
+                removeBtn.classList.remove('hide-remove-btn');
             }
-
-            const propertyTabs = document.querySelectorAll('.propertyTab');
-            for (let i = 0; i < propertyTabs.length; i++) {
-                const propertyTab = propertyTabs.item(i);
-                if (!propertyTab.classList.contains('selected')) {
-                    continue;
-                }
-
-                if (removeBtn.classList.contains('hide-remove-btn')) {
-                    removeBtn.classList.remove('hide-remove-btn');
-                }
-                return;
-            }
-
-            if (!removeBtn.classList.contains('hide-remove-btn')) {
-                removeBtn.classList.add('hide-remove-btn');
-            }
+            return;
         }
-        function removeSelected() {
-            const propertyTabs = document.querySelectorAll('.propertyTab');
-            const propertyIds = [];
-            propertyTabs.forEach((propertyTab) => {
-                if (propertyTab.classList.contains('selected')) {
-                    propertyIds.push(propertyTab.id);
-                    propertyTab.classList.remove('selected');
-                }
-            });
 
-            const formData = new FormData();
-            formData.append('property_ids', propertyIds.join(','));
-            
-            fetch('/properties', {
-            method: 'POST',
-            body: formData
-            }).then(response => response.text())
-            .then(response => document.querySelector('html').innerHTML = response);
+        const propertyTabs = document.querySelectorAll('.propertyTab');
+        for (let i = 0; i < propertyTabs.length; i++) {
+            const propertyTab = propertyTabs.item(i);
+            if (!propertyTab.classList.contains('selected')) {
+                continue;
+            }
+
+            if (removeBtn.classList.contains('hide-remove-btn')) {
+                removeBtn.classList.remove('hide-remove-btn');
+            }
+            return;
         }
-    </script>
+
+        if (!removeBtn.classList.contains('hide-remove-btn')) {
+            removeBtn.classList.add('hide-remove-btn');
+        }
+    }
+    function removeSelected() {
+        const propertyTabs = document.querySelectorAll('.propertyTab');
+        const propertyIds = [];
+        propertyTabs.forEach((propertyTab) => {
+            if (propertyTab.classList.contains('selected')) {
+                propertyIds.push(propertyTab.id);
+                propertyTab.classList.remove('selected');
+            }
+        });
+
+        const formData = new FormData();
+        formData.append('property_ids', propertyIds.join(','));
+
+        fetch('/properties', {
+        method: 'POST',
+        body: formData
+        }).then(response => response.text())
+        .then(response => document.querySelector('html').innerHTML = response);
+    }
+</script>
 {% endblock %}

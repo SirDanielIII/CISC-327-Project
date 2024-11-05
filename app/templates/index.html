@@ -2,20 +2,20 @@
 {% block title %}Home{% endblock %}
 
 {% block head %}
-    {{ super() }}
-    <link rel="stylesheet" href="{{url_for('static', filename='homePage.css')}}">
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static', filename='homePage.css')}}">
 {% endblock %}
 
 {% block content %}
-    <div class="WhiteTransparentDivider">
-        {% if not current_user.is_authenticated %}
-            <h1 class="WelcomeMessage1">Welcome to the Rental Management System</h1>
-            <h3 class="GetStartedMessage">Login or register to get started!</h3>
-            <a class="LoginButton" href="/login">LOGIN</a>
-            <a class="RegisterButton" href="/register">REGISTER</a>
-        {% else %}
-            <h1 class="WelcomeMessage1">Welcome {{ current_user.first_name }}, to the Rental Management System</h1>
-            <h3 class="GetStartedMessage">Click on any link from the sidebar to get started!</h3>
-        {% endif %}
-    </div>
+<div class="WhiteTransparentDivider">
+    {% if not current_user.is_authenticated %}
+    <h1 class="WelcomeMessage1">Welcome to the Rental Management System</h1>
+    <h3 class="GetStartedMessage">Login or register to get started!</h3>
+    <a class="LoginButton" href="/login">LOGIN</a>
+    <a class="RegisterButton" href="/register">REGISTER</a>
+    {% else %}
+    <h1 class="WelcomeMessage1">Welcome {{ current_user.first_name }}, to the Rental Management System</h1>
+    <h3 class="GetStartedMessage">Click on any link from the sidebar to get started!</h3>
+    {% endif %}
+</div>
 {% endblock %}
