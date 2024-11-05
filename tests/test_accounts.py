@@ -130,6 +130,3 @@ class AccountTests(BaseTestClass):
         self.assertEqual(response.status_code, 200)
         self.assertIn(self.user_logged_out_welcome_msg, response.data)
         self.assertIn(b'LOGIN', response.data)
-
-if __name__ == "__main__":
-    unittest.main()
