@@ -27,4 +27,9 @@ def create_app(db_name_prefix=None):
     app.register_blueprint(public_controller.public_blueprint)
     app.register_blueprint(account_controller.account_blueprint)
     app.register_blueprint(property_controller.property_blueprint)
+
+    @app.errorhandler(404)
+    def handle_not_found(error):
+        return public_controller.not_found()
+    
     return app

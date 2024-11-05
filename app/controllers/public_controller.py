@@ -8,3 +8,6 @@ def index():
         user_input = request.form['user_input']
         return render_template('index.html', user_input=user_input)
     return render_template('index.html', user_input=None)
+
+def not_found():
+    return (render_template("not_found.html"), 404)

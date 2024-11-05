@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Not Found{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static', filename='homePage.css')}}">
+{% endblock %}
+
+{% block content %}
+    <div class="WhiteTransparentDivider">
+        <h1 class="WelcomeMessage1">We couldn't find the page you are looking for.</h1>
+        <h3 class="GetStartedMessage">Visit the homepage to get started!</h3>
+        <a class="LoginButton" href="/">HOME</a>
+    </div>
+{% endblock %}
