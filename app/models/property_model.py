@@ -1,5 +1,6 @@
 from ..database import db
 
+
 class Property(db.Model):
     __tablename__ = 'Properties'
     id = db.Column(db.Integer, primary_key=True)

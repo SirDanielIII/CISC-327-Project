@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request
 
 public_blueprint = Blueprint('public', __name__)
 
+
 @public_blueprint.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -9,5 +10,6 @@ def index():
         return render_template('index.html', user_input=user_input)
     return render_template('index.html', user_input=None)
 
+
 def not_found():
-    return (render_template("not_found.html"), 404)
+    return render_template("not_found.html"), 404

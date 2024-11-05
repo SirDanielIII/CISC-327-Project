@@ -1,6 +1,8 @@
-from io import BytesIO
-from qrcode import QRCode
 from base64 import b64encode
+from io import BytesIO
+
+from qrcode import QRCode
+
 
 def get_b64_encoded_qr_code(data):
     qr = QRCode(version=1, box_size=10, border=3)

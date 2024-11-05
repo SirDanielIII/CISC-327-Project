@@ -1,12 +1,14 @@
 from flask import Blueprint, render_template, request, redirect, abort, url_for, flash
 from flask_login import login_required, current_user
-from .helpers.role_required_wrapper import role_required
+
 from .helpers.ensure_2fa_verified import ensure_2fa_verified
+from .helpers.role_required_wrapper import role_required
+from ..database import db
 from ..enums.AccountType import AccountType
 from ..models.property_model import Property
-from ..database import db
 
 property_blueprint = Blueprint('property', __name__)
+
 
 @property_blueprint.route('/properties', methods=['GET', 'POST'])
 @login_required
@@ -17,12 +19,13 @@ def get_properties():
         ids = request.form['property_ids']
         parsed_ids = ids.split(',')
         deleted_count = db.session.query(Property).filter(Property.id.in_(parsed_ids),
-                            Property.owner_id == current_user.id).delete(synchronize_session='fetch')
+                                                          Property.owner_id == current_user.id).delete(synchronize_session='fetch')
         db.session.commit()
-        flash(f'Successfully deleted {deleted_count} properties.',category='success')
+        flash(f'Successfully deleted {deleted_count} properties.', category='success')
         return redirect(url_for('property.get_properties'))
 
     return render_template('managementProperties/properties.html', properties=current_user.properties)
+
 
 @property_blueprint.route('/property_details/<id>', methods=['GET', 'POST'])
 @login_required
@@ -30,14 +33,14 @@ def get_properties():
 @role_required(AccountType.PROPERTY_OWNER)
 def property_details(id: int):
     found_property = db.session.get(Property, id)
-    
-    if found_property == None:
+
+    if found_property is None:
         return abort(404)
-    
+
     if found_property.owner_id != current_user.id:
         # Property does not belong to requesting user
         return abort(403)
-    
+
     if request.method == 'POST':
         address = request.form['streetAddress']
         property_type = request.form['ptype']
@@ -56,9 +59,10 @@ def property_details(id: int):
         found_property.available = availability == 'available'
 
         db.session.commit()
-        flash(f'Successfully saved all updated property values.',category='success')
+        flash(f'Successfully saved all updated property values.', category='success')
 
     return render_template('managementProperties/property.html', property=found_property)
+
 
 @property_blueprint.route('/add_property', methods=['GET', 'POST'])
 @login_required
@@ -76,6 +80,7 @@ def add_property():
     rent_price = request.form['price']
     availability = request.form['availability']
 
+    # TODO: FINISH THE FIELDS
     new_property = Property()
     new_property.address = address
     new_property.property_type = property_type
@@ -88,6 +93,5 @@ def add_property():
 
     db.session.add(new_property)
     db.session.commit()
-    flash(f'Successfully added the new property.',category='success')
+    flash(f'Successfully added the new property.', category='success')
     return redirect(url_for('property.property_details', id=new_property.id))
-    

@@ -1,8 +1,10 @@
 from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
 from pyotp import random_base32, TOTP
+from werkzeug.security import generate_password_hash, check_password_hash
+
 from ..database import db
 from ..enums.AccountType import AccountType
+
 
 class User(UserMixin, db.Model):
     __tablename__ = 'Users'
@@ -34,7 +36,7 @@ class User(UserMixin, db.Model):
     def is_otp_valid(self, user_otp: str) -> bool:
         totp = TOTP(self.token_2fa)
         return totp.verify(user_otp)
-    
+
     def get_otp_provisioning_uri(self) -> str:
         totp = TOTP(self.token_2fa)
         return totp.provisioning_uri(name=self.email, issuer_name='Lease Fifty Seven')

@@ -3,6 +3,7 @@ from flask_login import LoginManager
 
 from .database import initialize_db
 
+
 def create_app(db_name_prefix=None):
     app = Flask(__name__)
     app.secret_key = '743e38e4152d2160384c9027fb6b8b85'
@@ -21,7 +22,7 @@ def create_app(db_name_prefix=None):
         if usr_id.isdigit():
             return db.session.get(User, int(usr_id))
         return None
-    
+
     from .controllers import public_controller, account_controller, property_controller
 
     app.register_blueprint(public_controller.public_blueprint)
@@ -31,5 +32,5 @@ def create_app(db_name_prefix=None):
     @app.errorhandler(404)
     def handle_not_found(error):
         return public_controller.not_found()
-    
+
     return app
