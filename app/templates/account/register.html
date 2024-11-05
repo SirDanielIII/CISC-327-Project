@@ -37,8 +37,10 @@
         <input type="password" name="confirm_password" placeholder="Confirm Password" required>
         <label for="type">ACCOUNT TYPE:</label>
         <select id="type" name="type">
-            <option value="tenant" {% if account_type == 'tenant' %}selected{% endif %}>Tenant</option>
-            <option value="property-owner" {% if account_type == 'property-owner' %}selected{% endif %}>Property Owner</option>
+            <option value="TENANT" {% if account_type==
+            'TENANT' %}selected{% endif %}>Tenant</option>
+            <option value="PROPERTY_OWNER" {% if account_type==
+            'PROPERTY_OWNER' %}selected{% endif %}>Property Owner</option>
         </select>
         <button type="submit">REGISTER</button>
     </form>

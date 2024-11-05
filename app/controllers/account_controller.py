@@ -95,8 +95,15 @@ def register():
             return render_template('account/register.html', first_name=first_name, last_name=last_name,
                                    email=email, account_type=account_type)
 
-        user = User(first_name=first_name, last_name=last_name, email=email, password=password,
-                    account_type=AccountType[account_type.upper()])
+        account_type = request.form.get('type')
+        print(account_type)
+        user = User(
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            password=password,
+            account_type=AccountType[account_type]  # No need for .upper() since values match
+        )
 
         db.session.add(user)
         db.session.commit()
@@ -104,7 +111,6 @@ def register():
         return redirect('/setup_2fa')
 
     return render_template('account/register.html')
-
 
 
 @account_blueprint.route('/logout')
