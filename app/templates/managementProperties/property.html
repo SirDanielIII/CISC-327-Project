@@ -21,29 +21,29 @@ Property Details
     <form class="property-form" id="property-form" method="post">
         {% set fd = form_data if form_data else {} %}
         <label for="streetAddress">Street Address:</label>
-        <input type="text" name="streetAddress" value="{% if fd.streetAddress is defined %}{{ fd.streetAddress }}{% elif property %}{{ property.address }}{% endif %}" placeholder="Enter street address"/>
+        <input type="text" name="streetAddress" required value="{% if fd.streetAddress is defined %}{{ fd.streetAddress }}{% elif property %}{{ property.address }}{% endif %}" placeholder="Enter street address"/>
 
         <label for="ptype">Property Type:</label>
-        <input type="text" name="ptype" value="{% if fd.ptype is defined %}{{ fd.ptype }}{% elif property %}{{ property.property_type }}{% endif %}" placeholder="Enter property type"/>
+        <input type="text" name="ptype" required value="{% if fd.ptype is defined %}{{ fd.ptype }}{% elif property %}{{ property.property_type }}{% endif %}" placeholder="Enter property type"/>
 
         <label for="sqft">Square Footage:</label>
-        <input type="text" name="sqft" value="{% if fd.sqft is defined %}{{ fd.sqft }}{% elif property %}{{ property.square_footage }}{% endif %}" placeholder="Enter square footage"/>
+        <input type="text" name="sqft" required value="{% if fd.sqft is defined %}{{ fd.sqft }}{% elif property %}{{ property.square_footage }}{% endif %}" placeholder="Enter square footage"/>
 
         <label for="bdr">Bedrooms:</label>
-        <input type="text" name="bdr" value="{% if fd.bdr is defined %}{{ fd.bdr }}{% elif property %}{{ property.bedrooms }}{% endif %}" placeholder="Enter number of bedrooms"/>
+        <input type="text" name="bdr" required value="{% if fd.bdr is defined %}{{ fd.bdr }}{% elif property %}{{ property.bedrooms }}{% endif %}" placeholder="Enter number of bedrooms"/>
 
         <label for="btr">Bathrooms:</label>
-        <input type="text" name="btr" value="{% if fd.btr is defined %}{{ fd.btr }}{% elif property %}{{ property.bathrooms }}{% endif %}" placeholder="Enter number of bathrooms"/>
+        <input type="text" name="btr" required value="{% if fd.btr is defined %}{{ fd.btr }}{% elif property %}{{ property.bathrooms }}{% endif %}" placeholder="Enter number of bathrooms"/>
 
         <label for="price">Leasing Price:</label>
-        <input type="text" name="price" value="{% if fd.price is defined %}{{ fd.price }}{% elif property %}{{ property.rent_per_month }}{% endif %}" placeholder="Enter leasing price"/>
+        <input type="text" name="price" required value="{% if fd.price is defined %}{{ fd.price }}{% elif property %}{{ property.rent_per_month }}{% endif %}" placeholder="Enter leasing price"/>
 
         <label for="availability">Availability:</label>
         <select id="availability" name="availability">
             <option value="available"
                     {% if fd.availability == 'available' %}
             selected="selected"
-            {% elif property and property.available %}
+            {% elif not property or property.available %}
             selected="selected"
             {% endif %}
             >Available

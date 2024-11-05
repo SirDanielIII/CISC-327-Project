@@ -14,6 +14,9 @@
     .password-req ul {
         margin: 0;
     }
+    .role-disclaimer {
+        max-width: 300px;
+    }
 </style>
 {% endblock %}
 
@@ -37,11 +40,12 @@
         <input type="password" name="confirm_password" placeholder="Confirm Password" required>
         <label for="type">ACCOUNT TYPE:</label>
         <select id="type" name="type">
-            <option value="TENANT" {% if account_type==
-            'TENANT' %}selected{% endif %}>Tenant</option>
             <option value="PROPERTY_OWNER" {% if account_type==
             'PROPERTY_OWNER' %}selected{% endif %}>Property Owner</option>
+            <option value="TENANT" {% if account_type==
+            'TENANT' %}selected{% endif %}>Tenant</option>
         </select>
+        <p class="role-disclaimer">Note: This system only supports Property Owner's at this time and all accounts are created with this role.</p>
         <button type="submit">REGISTER</button>
     </form>
     <p>Already have an account? <a class="wrong-page-btn" href="/login">Login</a></p>

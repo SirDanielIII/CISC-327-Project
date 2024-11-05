@@ -96,13 +96,12 @@ def register():
                                    email=email, account_type=account_type)
 
         account_type = request.form.get('type')
-        print(account_type)
         user = User(
             first_name=first_name,
             last_name=last_name,
             email=email,
             password=password,
-            account_type=AccountType[account_type]  # No need for .upper() since values match
+            account_type=AccountType.PROPERTY_OWNER  # Site only supports property owners for now
         )
 
         db.session.add(user)

@@ -99,7 +99,7 @@ class AccountTests(BaseTestClass):
             password=self.user_password
         ), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'The email provided is already registered for an account!', response.data)
+        self.assertIn(b'The email provided is already registered. Please log in.', response.data)
         self.assertIn(b'Register', response.data)
 
     def test_valid_login(self):

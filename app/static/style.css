@@ -142,7 +142,7 @@ button {
     width: 100%;
 }
 .container:has(.Sidebar) .content-container {
-    margin-left: 1rem;
+    margin-left: 0.5rem;
 }
 .flashes {
     list-style-type: none;
