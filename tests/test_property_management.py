@@ -135,8 +135,8 @@ class PropertyTests(BaseTestClass):
             user properties are visible"""
         response = self.client.get('/properties')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Remove', response.data)
-        self.assertIn(b'Add', response.data)
+        self.assertIn(b'REMOVE', response.data)
+        self.assertIn(b'ADD', response.data)
 
     def test_delete_properties(self):
         """Test deleting two properties at once"""
