@@ -31,7 +31,7 @@ class PropertyTests(BaseTestClass):
         self.assertIn(str.encode(bedrooms), response.data)
         self.assertIn(str.encode(bathrooms), response.data)
         self.assertIn(str.encode(rent_price), response.data)
-        self.assertIn(b'selected="selected"\n                    \n                    >Available', response.data)
+        self.assertIn(b'selected="selected"\n            \n            >Available', response.data)
 
     def test_view_property_details(self):
         """Test viewing a property"""
@@ -59,7 +59,7 @@ class PropertyTests(BaseTestClass):
         self.assertIn(str.encode(bedrooms), response.data)
         self.assertIn(str.encode(bathrooms), response.data)
         self.assertIn(str.encode(rent_price), response.data)
-        self.assertIn(b'selected="selected"\n                    \n                    >Available', response.data)
+        self.assertIn(b'selected="selected"\n            \n            >Available', response.data)
 
         property_id = response.request.path.split('/')[-1]
 
@@ -71,7 +71,7 @@ class PropertyTests(BaseTestClass):
         self.assertIn(str.encode(bedrooms), response.data)
         self.assertIn(str.encode(bathrooms), response.data)
         self.assertIn(str.encode(rent_price), response.data)
-        self.assertIn(b'selected="selected"\n                    \n                    >Available', response.data)
+        self.assertIn(b'selected="selected"\n            \n            >Available', response.data)
 
 
     def test_edit_property(self):
@@ -100,7 +100,7 @@ class PropertyTests(BaseTestClass):
         self.assertIn(str.encode(bedrooms), response.data)
         self.assertIn(str.encode(bathrooms), response.data)
         self.assertIn(str.encode(rent_price), response.data)
-        self.assertIn(b'selected="selected"\n                    \n                    >Available', response.data)
+        self.assertIn(b'selected="selected"\n            \n            >Available', response.data)
 
         property_id = response.request.path.split('/')[-1]
 
@@ -110,7 +110,7 @@ class PropertyTests(BaseTestClass):
         rent_price='2500'
         bedrooms='7'
         bathrooms='4'
-        availability='notAvailable'
+        availability='unavailable'
 
         response = self.client.post(f'/property_details/{property_id}', data=dict(
             streetAddress=address,
@@ -128,15 +128,15 @@ class PropertyTests(BaseTestClass):
         self.assertIn(str.encode(bedrooms), response.data)
         self.assertIn(str.encode(bathrooms), response.data)
         self.assertIn(str.encode(rent_price), response.data)
-        self.assertIn(b'selected="selected"\n                    \n                >Not Available', response.data)
+        self.assertIn(b'selected="selected"\n            \n            >Not Available', response.data)
 
     def test_view_properties(self):
         """Test the properties page visibility and
             user properties are visible"""
         response = self.client.get('/properties')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Remove', response.data)
-        self.assertIn(b'Add', response.data)
+        self.assertIn(b'REMOVE', response.data)
+        self.assertIn(b'ADD', response.data)
 
     def test_delete_properties(self):
         """Test deleting two properties at once"""
@@ -164,7 +164,7 @@ class PropertyTests(BaseTestClass):
         self.assertIn(str.encode(bedrooms), response.data)
         self.assertIn(str.encode(bathrooms), response.data)
         self.assertIn(str.encode(rent_price), response.data)
-        self.assertIn(b'selected="selected"\n                    \n                    >Available', response.data)
+        self.assertIn(b'selected="selected"\n            \n            >Available', response.data)
 
         property_id_1 = response.request.path.split('/')[-1]
 
@@ -186,7 +186,7 @@ class PropertyTests(BaseTestClass):
         self.assertIn(str.encode(bedrooms), response.data)
         self.assertIn(str.encode(bathrooms), response.data)
         self.assertIn(str.encode(rent_price), response.data)
-        self.assertIn(b'selected="selected"\n                    \n                    >Available', response.data)
+        self.assertIn(b'selected="selected"\n            \n            >Available', response.data)
 
         property_id_2 = response.request.path.split('/')[-1]
 

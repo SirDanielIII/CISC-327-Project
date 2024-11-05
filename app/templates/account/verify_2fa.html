@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 {% block title %}2FA Verification{% endblock %}
 {% block head %}
-    {{ super() }}
-    <link rel="stylesheet" href="{{url_for('static', filename='account-style.css')}}">
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static', filename='account-style.css')}}">
 {% endblock %}
 {% block content %}
-    <h1 class="welcome-message">2FA Verification</h1>
-    <p class="subtitle">Complete authentication by verifying your setup 2FA method.</p>
-    <br>
-    <p class="text">Enter the 6 digits found in the authenticator app used to register 2FA authentication with this account.</p>
-    <div class="input-form">
-        <form method="POST">
-            <input type="text" name="verification_code" placeholder="Verification Code" required pattern="\d{6}">
-            <button type="submit">Verify 2FA</button>
-        </form>
-    </div>
+<h1 class="welcome-message">2FA Verification</h1>
+<p class="subtitle">Complete authentication by verifying your setup 2FA method.</p>
+<br>
+<p class="text">Enter the 6 digits found in the authenticator app used to register 2FA authentication with this account.</p>
+<div class="input-form">
+    <form method="POST">
+        <input type="text" name="verification_code" placeholder="Verification Code" required pattern="\d{6}">
+        <button type="submit">Verify 2FA</button>
+    </form>
+</div>
 {% endblock %}

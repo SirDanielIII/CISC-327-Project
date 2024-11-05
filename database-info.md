@@ -1,6 +1,12 @@
 # Database Information
 
-This app utilizes Flask-SQLAlchemy and Flask-Migrate as an ORM around a sqlite database.
+This app uses a sqlite3 database in the `app/database` directory called `rent_management.db` and will
+create it on intialization if it does not already exist.
+Since it is a sqlite3 database, the structure and data can be viewed and modified with any sqlite database browser.
+To simply delete all of the data in the database, stop the app, delete the `rent_management.db` file
+and on the next startup, a fresh database will be created.
+
+To implement this functionality, this app utilizes Flask-SQLAlchemy and Flask-Migrate as an ORM around a sqlite database.
 
 ## Flask-SQLAlchemy
 

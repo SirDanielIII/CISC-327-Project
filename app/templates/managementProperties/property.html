@@ -1,81 +1,62 @@
 {% extends "base.html" %}
 {% block title %}
-    {% if property == None %}
-        Add Property
-    {% else %}
-        Property Details
-    {% endif %}
+{% if property == None %}
+Add Property
+{% else %}
+Property Details
+{% endif %}
 {% endblock %}
 {% block head %}
-    {{ super() }}
-    <link rel="stylesheet" href="{{url_for('static', filename='managementAccount.css')}}">
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static', filename='managementAccount.css')}}">
 {% endblock %}
 {% block properties_classes %}selectedColor{% endblock %}
 {% block content %}
-    <div class="OutputPlacement">
-        <div class="OutputOptionsBar">
-            <button type="submit" form="property-form" class="OptionsButton">
-                Save
-            </button>
-        </div>
-        <form class="property-form" id="property-form" method="post">
-            {% if property == None %}
-                <label for="streetAddress">Street Address:</label>
-                <input type="text" name="streetAddress" value="" placeholder="Enter street address" />
-
-                <label for="ptype">Property Type:</label>
-                <input type="text" name="ptype" value="" placeholder="Enter property type" />
-
-                <label for="sqft">Square Footage:</label>
-                <input type="text" name="sqft" value="" placeholder="Enter square footage" />
-
-                <label for="bdr">Bedrooms:</label>
-                <input type="text" name="bdr" value="" placeholder="Enter number of bedrooms" />
-
-                <label for="btr">Bathrooms:</label>
-                <input type="text" name="btr" value="" placeholder="Enter number of bathrooms" />
-
-                <label for="price">Leasing Price:</label>
-                <input type="text" name="price" value="" placeholder="Enter leasing price" />
-
-                <label for="availability">Availability:</label>
-                <select id="availability" name="availability">
-                    <option value="available">Available</option>
-                    <option value="notAvailable">Not Available</option>
-                </select>
-            {% else %}
-                <label for="streetAddress">Street Address:</label>
-                <input type="text" name="streetAddress" value="{{ property.address }}" placeholder="Enter street address" />
-
-                <label for="ptype">Property Type:</label>
-                <input type="text" name="ptype" value="{{ property.property_type }}" placeholder="Enter property type" />
-
-                <label for="sqft">Square Footage:</label>
-                <input type="text" name="sqft" value="{{ property.square_footage }}" placeholder="Enter square footage" />
-
-                <label for="bdr">Bedrooms:</label>
-                <input type="text" name="bdr" value="{{ property.bedrooms }}" placeholder="Enter number of bedrooms" />
-
-                <label for="btr">Bathrooms:</label>
-                <input type="text" name="btr" value="{{ property.bathrooms }}" placeholder="Enter number of bathrooms" />
-
-                <label for="price">Leasing Price:</label>
-                <input type="text" name="price" value="{{ property.rent_per_month }}" placeholder="Enter leasing price" />
-
-                <label for="availability">Availability:</label>
-                <select id="availability" name="availability">
-                    <option value="available"
-                    {% if property.available %}
-                        selected="selected"
-                    {% endif %}
-                    >Available</option>
-                    <option value="notAvailable"
-                    {% if not property.available %}
-                        selected="selected"
-                    {% endif %}
-                >Not Available</option>
-                </select>
-            {% endif %}
-        </form>
+<div class="OutputPlacement">
+    <div class="OutputOptionsBar">
+        <button type="submit" form="property-form" class="OptionsButton">
+            SAVE
+        </button>
     </div>
+    <form class="property-form" id="property-form" method="post">
+        {% set fd = form_data if form_data else {} %}
+        <label for="streetAddress">STREET ADDRESS:</label>
+        <input type="text" name="streetAddress" required value="{% if fd.streetAddress is defined %}{{ fd.streetAddress }}{% elif property %}{{ property.address }}{% endif %}" placeholder="Enter street address"/>
+
+        <label for="ptype">PROPERTY TYPE:</label>
+        <input type="text" name="ptype" required value="{% if fd.ptype is defined %}{{ fd.ptype }}{% elif property %}{{ property.property_type }}{% endif %}" placeholder="Enter property type"/>
+
+        <label for="sqft">SQUARE FOOTAGE:</label>
+        <input type="text" name="sqft" required value="{% if fd.sqft is defined %}{{ fd.sqft }}{% elif property %}{{ property.square_footage }}{% endif %}" placeholder="Enter square footage"/>
+
+        <label for="bdr">BEDROOMS:</label>
+        <input type="text" name="bdr" required value="{% if fd.bdr is defined %}{{ fd.bdr }}{% elif property %}{{ property.bedrooms }}{% endif %}" placeholder="Enter number of bedrooms"/>
+
+        <label for="btr">BATHROOMS:</label>
+        <input type="text" name="btr" required value="{% if fd.btr is defined %}{{ fd.btr }}{% elif property %}{{ property.bathrooms }}{% endif %}" placeholder="Enter number of bathrooms"/>
+
+        <label for="price">LEASING PRICE:</label>
+        <input type="text" name="price" required value="{% if fd.price is defined %}{{ fd.price }}{% elif property %}{{ property.rent_per_month }}{% endif %}" placeholder="Enter leasing price"/>
+
+        <label for="availability">AVAILABILITY:</label>
+        <select id="availability" name="availability">
+            <option value="available"
+                    {% if fd.availability == 'available' %}
+            selected="selected"
+            {% elif not property or property.available %}
+            selected="selected"
+            {% endif %}
+            >Available
+            </option>
+            <option value="unavailable"
+                    {% if fd.availability == 'unavailable' %}
+            selected="selected"
+            {% elif property and not property.available %}
+            selected="selected"
+            {% endif %}
+            >Not Available
+            </option>
+        </select>
+    </form>
+</div>
 {% endblock %}

@@ -16,15 +16,19 @@ button {
     font-size: 24px;
     border-radius: 4px;
     text-align: left;
-    border: 1px black solid;
+    /* border: 1px black solid; */
 }
 .secondary-nav-btn {
+    border: #708671;
     background-color: #708671;
     color: #ffffff;
     cursor: pointer;
     width: 87%;
     margin: 0.25rem;
     transition: background-color 0.3s ease;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 20px;
+    line-height: 28px;
 }
 .secondary-nav-btn:hover {
     background-color: #636363;
@@ -36,7 +40,7 @@ button {
     width: 417px;
     min-width: 196px;
     height: 100%;
-    border-right: 1px black solid;
+    background-color: #CCC5B9;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -47,7 +51,7 @@ button {
     text-align: center;
     color: #2B4156;
     font-size: 32px;
-    font-family: 'Playfair Display', serif; /* Add font-family in quotes */
+    font-family: 'Playfair Display', serif; 
     font-weight: 400;
     letter-spacing: 5px;
     margin: 0;
@@ -56,7 +60,7 @@ button {
     text-align: center;
     color: black;
     font-size: 19px;
-    font-family: 'Quicksand', sans-serif; /* Add font-family in quotes */
+    font-family: 'Quicksand', sans-serif; 
     font-weight: 400;
     letter-spacing: 10px;
     margin: 0;
@@ -65,6 +69,8 @@ button {
     color: #2B4156;
     font-size: 24px;
     font-weight: 500;
+    font-family: 'Quicksand', sans-serif; 
+    padding-right: 10px;
     white-space: nowrap;
 }
 .nav-logo {
@@ -142,7 +148,7 @@ button {
     width: 100%;
 }
 .container:has(.Sidebar) .content-container {
-    margin-left: 1rem;
+    margin-left: 0.5rem;
 }
 .flashes {
     list-style-type: none;
