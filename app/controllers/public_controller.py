@@ -1,14 +1,11 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template
 
 public_blueprint = Blueprint('public', __name__)
 
 
-@public_blueprint.route('/', methods=['GET', 'POST'])
+@public_blueprint.route('/', methods=['GET'])
 def index():
-    if request.method == 'POST':
-        user_input = request.form['user_input']
-        return render_template('index.html', user_input=user_input)
-    return render_template('index.html', user_input=None)
+    return render_template('index.html')
 
 
 def not_found():
