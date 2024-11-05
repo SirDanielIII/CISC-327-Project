@@ -3,7 +3,12 @@ from flask_login import LoginManager
 
 from .database import initialize_db
 
-
+"""
+This function creates and intializes the web app server
+It is used by run_app.py to launch the web server and also
+tests to create a tests app.
+To run the web app go to run_app.py
+"""
 def create_app(db_name_prefix=None):
     app = Flask(__name__)
     app.secret_key = '743e38e4152d2160384c9027fb6b8b85'
