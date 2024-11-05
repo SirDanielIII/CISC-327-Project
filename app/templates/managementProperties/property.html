@@ -15,54 +15,54 @@
     <div class="OutputPlacement">
         <div class="OutputOptionsBar">
             <button type="submit" form="property-form" class="OptionsButton">
-                Save
+                SAVE
             </button>
         </div>
         <form class="property-form" id="property-form" method="post">
             {% if property == None %}
-                <label for="streetAddress">Street Address:</label>
+                <label for="streetAddress">STREET ADDRESS:</label>
                 <input type="text" name="streetAddress" value="" placeholder="Enter street address" />
 
-                <label for="ptype">Property Type:</label>
+                <label for="ptype">PROPERTY TYPE:</label>
                 <input type="text" name="ptype" value="" placeholder="Enter property type" />
 
-                <label for="sqft">Square Footage:</label>
+                <label for="sqft">SQUARE FOOTAGE:</label>
                 <input type="text" name="sqft" value="" placeholder="Enter square footage" />
 
-                <label for="bdr">Bedrooms:</label>
+                <label for="bdr">BEDROOMS:</label>
                 <input type="text" name="bdr" value="" placeholder="Enter number of bedrooms" />
 
-                <label for="btr">Bathrooms:</label>
+                <label for="btr">BATHROOMS:</label>
                 <input type="text" name="btr" value="" placeholder="Enter number of bathrooms" />
 
-                <label for="price">Leasing Price:</label>
+                <label for="price">LEASING PRICE:</label>
                 <input type="text" name="price" value="" placeholder="Enter leasing price" />
 
-                <label for="availability">Availability:</label>
+                <label for="availability">AVAILABILITY:</label>
                 <select id="availability" name="availability">
                     <option value="available">Available</option>
                     <option value="notAvailable">Not Available</option>
                 </select>
             {% else %}
-                <label for="streetAddress">Street Address:</label>
+                <label for="streetAddress">STREET ADDRESS:</label>
                 <input type="text" name="streetAddress" value="{{ property.address }}" placeholder="Enter street address" />
 
-                <label for="ptype">Property Type:</label>
+                <label for="ptype">PROPERTY TYPE:</label>
                 <input type="text" name="ptype" value="{{ property.property_type }}" placeholder="Enter property type" />
 
-                <label for="sqft">Square Footage:</label>
+                <label for="sqft">SQUARE FOOTAGE:</label>
                 <input type="text" name="sqft" value="{{ property.square_footage }}" placeholder="Enter square footage" />
 
-                <label for="bdr">Bedrooms:</label>
+                <label for="bdr">BEDROOMS:</label>
                 <input type="text" name="bdr" value="{{ property.bedrooms }}" placeholder="Enter number of bedrooms" />
 
-                <label for="btr">Bathrooms:</label>
+                <label for="btr">BATHROOMS:</label>
                 <input type="text" name="btr" value="{{ property.bathrooms }}" placeholder="Enter number of bathrooms" />
 
-                <label for="price">Leasing Price:</label>
+                <label for="price">LEASING PRICE:</label>
                 <input type="text" name="price" value="{{ property.rent_per_month }}" placeholder="Enter leasing price" />
 
-                <label for="availability">Availability:</label>
+                <label for="availability">AVAILABILITY:</label>
                 <select id="availability" name="availability">
                     <option value="available"
                     {% if property.available %}
