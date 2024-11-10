@@ -45,14 +45,18 @@ class BaseTestClass(unittest.TestCase):
             self.test_user.is_2fa_auth_enabled = False
             db.session.commit()
         self.client = self.app.test_client()
+        self.test_user_2fa_token = None
         return super().setUp()
     
     def enableTestUser2fa(self) -> str:
+        if self.test_user_2fa_token:
+            return
         with self.app.app_context():
             # Enable 2FA and return the 2FA secret token
             test_user = db.session.query(User).filter_by(email=self.user_email).scalar()
             test_user.is_2fa_auth_enabled = True
             db.session.commit()
+            self.test_user_2fa_token = test_user.token_2fa
             return test_user.token_2fa
     
     def loginTestUser(self):
@@ -60,7 +64,10 @@ class BaseTestClass(unittest.TestCase):
             email=self.user_email,
             password=self.user_password
         ), follow_redirects=True)
-        self.assertIn(b'Welcome', response.data)
+        if not self.test_user_2fa_token:
+            self.assertIn(b'Welcome', response.data)
+        else:
+            self.assertIn(b'2FA Verification', response.data)
         self.assertNotIn(b'LOGIN', response.data)
         self.assertNotIn(b'REGISTER', response.data)
         self.assertIn(str.encode(self.user_first_name), response.data)
