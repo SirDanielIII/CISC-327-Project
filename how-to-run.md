@@ -34,14 +34,14 @@ python3 run_app.py
 
 ## Running The Test Suite
 
-Run the following command to start run the unit tests:
+Run the following command to start run the unit tests with code coverage analysis:
 
 ```powershell
-python -m unittest discover -s tests
+python run_tests.py
 ```
 
 or if you're on a Unix system:
 
 ```bash
-python3 -m unittest discover -s tests
+python3 run_tests.py
 ```

@@ -68,8 +68,7 @@ def register():
         if not email or not re.match(r".+@.+", email):
             validation_error = True
             flash("Please enter a valid email address.", 'error')
-
-        if User.query.filter_by(email=email).scalar():
+        elif User.query.filter_by(email=email).scalar():
             flash("The email provided is already registered. Please log in.", 'error')
             return render_template('account/register.html', first_name=first_name, last_name=last_name,
                                    email=email, account_type=account_type)

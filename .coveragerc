@@ -1,0 +1,10 @@
+[run]
+branch = True
+source = ./app
+omit =
+    app/database/migrations/*
+    app/templates/*
+    **/*.db
+
+[report]
+show_missing = True

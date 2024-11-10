@@ -4,3 +4,6 @@ Flask-SQLAlchemy
 Flask-Migrate
 pyotp
 qrcode[pil]
+
+# For unit test code coverage
+coverage
