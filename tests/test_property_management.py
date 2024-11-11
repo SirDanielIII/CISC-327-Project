@@ -46,7 +46,13 @@ class PropertyTests(BaseTestClass):
         ), follow_redirects=True)
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'This field is required', response.data)
+        self.assertIn(b'Please enter an address.', response.data)
+        self.assertIn(b'Please specify the property type.', response.data)
+        self.assertIn(b'Please enter a valid square footage.', response.data)
+        self.assertIn(b'Please enter a valid number of bedrooms.', response.data)
+        self.assertIn(b'Please enter a valid number of bathrooms.', response.data)
+        self.assertIn(b'Please enter a valid rent price.', response.data)
+        self.assertIn(b'Please select availability status.', response.data)
 
     def test_add_property_invalid_data(self):
         """Test adding a property with invalid data"""
@@ -69,7 +75,7 @@ class PropertyTests(BaseTestClass):
         ), follow_redirects=True)
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Invalid input', response.data)
+        self.assertIn(b'Please enter a valid square footage.', response.data)
 
     def test_view_property_details(self):
         """Test viewing a property"""
@@ -113,11 +119,12 @@ class PropertyTests(BaseTestClass):
 
     def test_view_property_missing_details(self):
         """ Test viewing a non existent property"""
-        non_existent_pid = 999999 # Assuming this ID doesn't exist (It better not)
+        non_existent_pid = 999999 
         
         response = self.client.get(f'/property_details/{non_existent_pid}')
         self.assertEqual(response.status_code, 404)
-        self.assertIn(b'Property not found', response.data)
+        self.assertIn(b'Oops! We couldn\'t find the page you were looking for.', response.data)
+        # self.assertIn(b'back to homepage', response.data)
 
     def test_edit_property(self):
         """Test editing a property"""
