@@ -33,6 +33,44 @@ class PropertyTests(BaseTestClass):
         self.assertIn(str.encode(rent_price), response.data)
         self.assertIn(b'selected="selected"\n            \n            >Available', response.data)
 
+    def test_add_property_empty_fields(self):
+        """Test adding a property with empty fields"""
+        response = self.client.post('/add_property', data=dict(
+            streetAddress='',
+            ptype='',
+            sqft='',
+            bdr='',
+            btr='',
+            price='',
+            availability=''
+        ), follow_redirects=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'This field is required', response.data)
+
+    def test_add_property_invalid_data(self):
+        """Test adding a property with invalid data"""
+        address = '12 Test St'
+        property_type = 'Virtual'
+        sqrFtg = 'abc'  # Invalid square footage
+        bedrooms = '4'
+        bathrooms = '2'
+        rent_price = '1500'
+        availability = 'available'
+
+        response = self.client.post('/add_property', data=dict(
+            streetAddress=address,
+            ptype=property_type,
+            sqft=sqrFtg,
+            bdr=bedrooms,
+            btr=bathrooms,
+            price=rent_price,
+            availability=availability
+        ), follow_redirects=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Invalid input', response.data)
+
     def test_view_property_details(self):
         """Test viewing a property"""
         address = '123 Test St'
