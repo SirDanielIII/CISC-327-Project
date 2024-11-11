@@ -111,6 +111,13 @@ class PropertyTests(BaseTestClass):
         self.assertIn(str.encode(rent_price), response.data)
         self.assertIn(b'selected="selected"\n            \n            >Available', response.data)
 
+    def test_view_property_missing_details(self):
+        """ Test viewing a non existent property"""
+        non_existent_pid = 999999 # Assuming this ID doesn't exist (It better not)
+        
+        response = self.client.get(f'/property_details/{non_existent_pid}')
+        self.assertEqual(response.status_code, 404)
+        self.assertIn(b'Property not found', response.data)
 
     def test_edit_property(self):
         """Test editing a property"""
