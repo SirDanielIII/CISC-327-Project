@@ -1,5 +1,6 @@
 from base_test_class import BaseTestClass
 
+
 class PropertyTests(BaseTestClass):
     def setUp(self) -> None:
         super().setUp()
@@ -119,8 +120,8 @@ class PropertyTests(BaseTestClass):
 
     def test_view_property_missing_details(self):
         """ Test viewing a non existent property"""
-        non_existent_pid = 999999 
-        
+        non_existent_pid = 999999
+
         response = self.client.get(f'/property_details/{non_existent_pid}')
         self.assertEqual(response.status_code, 404)
         self.assertIn(b'Oops! We couldn\'t find the page you were looking for.', response.data)
@@ -156,13 +157,13 @@ class PropertyTests(BaseTestClass):
 
         property_id = response.request.path.split('/')[-1]
 
-        address='9876 Changed Ave'
-        property_type='House'
-        sqrFtg='321'
-        rent_price='2500'
-        bedrooms='7'
-        bathrooms='4'
-        availability='unavailable'
+        address = '9876 Changed Ave'
+        property_type = 'House'
+        sqrFtg = '321'
+        rent_price = '2500'
+        bedrooms = '7'
+        bathrooms = '4'
+        availability = 'unavailable'
 
         response = self.client.post(f'/property_details/{property_id}', data=dict(
             streetAddress=address,
