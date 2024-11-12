@@ -1,3 +1,5 @@
+from app.database import db
+from app.models import Property
 from base_test_class import BaseTestClass
 
 
@@ -250,3 +252,124 @@ class PropertyTests(BaseTestClass):
         property_detail_url = '/property_details/'
         self.assertNotIn(str.encode(property_detail_url + property_id_1), response.data)
         self.assertNotIn(str.encode(property_detail_url + property_id_2), response.data)
+
+    def test_delete_properties_no_ids(self):
+        """Test deleting properties without providing property_ids"""
+        response = self.client.post('/properties', data=dict(
+            # No property_ids provided
+        ), follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'No property IDs provided for deletion.', response.data)
+
+    def test_delete_properties_invalid_ids(self):
+        """Test deleting properties with invalid property_ids"""
+        response = self.client.post('/properties', data=dict(
+            property_ids='abc,def'
+        ), follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Invalid property IDs provided.', response.data)
+
+    def test_view_property_other_user(self):
+        """Test viewing a property that belongs to another user"""
+        # Add a property
+        address = '123 Test St'
+        property_type = 'Virtual'
+        sqrFtg = '12345'
+        bedrooms = '4'
+        bathrooms = '2'
+        rent_price = '1500'
+        availability = 'available'
+
+        response = self.client.post('/add_property', data=dict(
+            streetAddress=address,
+            ptype=property_type,
+            sqft=sqrFtg,
+            bdr=bedrooms,
+            btr=bathrooms,
+            price=rent_price,
+            availability=availability
+        ), follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        property_id = response.request.path.split('/')[-1]
+
+        # Change owner_id to simulate another user
+        with self.app.app_context():
+            property = db.session.get(Property, int(property_id))
+            property.owner_id = 99999  # Simulate another user
+            db.session.commit()
+
+        # Attempt to access the property details
+        response = self.client.get(f'/property_details/{property_id}')
+        self.assertEqual(response.status_code, 403)
+        self.assertIn(b'Forbidden', response.data)
+
+    def test_edit_property_invalid_data(self):
+        """Test editing a property with invalid data"""
+        # Add a property
+        address = '1234 Test St'
+        property_type = 'Virtual'
+        sqrFtg = '12345'
+        bedrooms = '4'
+        bathrooms = '2'
+        rent_price = '1500'
+        availability = 'available'
+
+        response = self.client.post('/add_property', data=dict(
+            streetAddress=address,
+            ptype=property_type,
+            sqft=sqrFtg,
+            bdr=bedrooms,
+            btr=bathrooms,
+            price=rent_price,
+            availability=availability
+        ), follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        property_id = response.request.path.split('/')[-1]
+
+        # Attempt to edit with invalid data
+        response = self.client.post(f'/property_details/{property_id}', data=dict(
+            streetAddress='',  # Missing address
+            ptype='',  # Missing property type
+            sqft='abc',  # Invalid square footage
+            bdr='',  # Missing bedrooms
+            btr='-1',  # Invalid bathrooms
+            price='abc',  # Invalid rent price
+            availability='unknown'  # Invalid availability
+        ), follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Please enter an address.', response.data)
+        self.assertIn(b'Please select a property type.', response.data)
+        self.assertIn(b'Please enter a valid square footage.', response.data)
+        self.assertIn(b'Please enter a valid number of bedrooms.', response.data)
+        self.assertIn(b'Please enter a valid number of bathrooms.', response.data)
+        self.assertIn(b'Please enter a valid rent price.', response.data)
+        self.assertIn(b'Please select availability status.', response.data)
+
+    def test_add_property_invalid_availability(self):
+        """Test adding a property with invalid availability status"""
+        address = '12 Test St'
+        property_type = 'Virtual'
+        sqrFtg = '12345'
+        bedrooms = '4'
+        bathrooms = '2'
+        rent_price = '1500'
+        availability = 'unknown'  # Invalid availability
+
+        response = self.client.post('/add_property', data=dict(
+            streetAddress=address,
+            ptype=property_type,
+            sqft=sqrFtg,
+            bdr=bedrooms,
+            btr=bathrooms,
+            price=rent_price,
+            availability=availability
+        ), follow_redirects=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Please select availability status.', response.data)
+
+    def test_add_property_get(self):
+        """Test accessing add_property page via GET"""
+        response = self.client.get('/add_property')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Add Property', response.data)

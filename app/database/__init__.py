@@ -1,26 +1,27 @@
 import os
+
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, upgrade, stamp
+from flask_sqlalchemy import SQLAlchemy
 
 DATABASE_NAME = 'rent_management.db'
 
 db = SQLAlchemy()
 migrate = Migrate()
 
+
 def initialize_db(app: Flask, db_name_prefix=None):
     db_directory = os.path.dirname(__file__)
 
     db_file_name = DATABASE_NAME
-    if db_name_prefix != None:
+    if db_name_prefix is not None:
         db_file_name = db_name_prefix + db_file_name
 
     db.db_path = os.path.join(db_directory, db_file_name)
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db.db_path}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    #Required for Flask-SqlAlchemy to detect models
-    from ..models import User, Property
+    # Required for Flask-SqlAlchemy to detect models
     db.init_app(app)
 
     migrations_directory = os.path.join(db_directory, 'migrations')
