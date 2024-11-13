@@ -1,6 +1,10 @@
 import re
+
 from pyotp import TOTP
+
+from app.database import db
 from base_test_class import BaseTestClass
+
 
 class AccountTests(BaseTestClass):
     current_user_index = 0
@@ -43,7 +47,7 @@ class AccountTests(BaseTestClass):
 
     def test_register_success(self):
         """Test a successful registration"""
-        AccountTests.current_user_index+=1
+        AccountTests.current_user_index += 1
         test_email = f'testemail{AccountTests.current_user_index}@example.com'
         test_first_name = 'Test'
         test_last_name = 'Name'
@@ -202,3 +206,40 @@ class AccountTests(BaseTestClass):
         self.assertEqual(response.status_code, 200)
         self.assertIn(self.user_logged_out_welcome_msg, response.data)
         self.assertIn(b'LOGIN', response.data)
+
+    def test_role_required_redirects_when_not_authenticated(self):
+        """Test that unauthenticated user is redirected to login."""
+        self.logoutUser()
+        response = self.client.get('/properties', follow_redirects=False)
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('/login', response.location)
+
+    def test_role_required_redirects_when_wrong_role(self):
+        """Test that user with wrong role is redirected to home with flash message."""
+        # Create a user with a different role
+        with self.app.app_context():
+            from app.models import User
+            from app.enums.AccountType import AccountType
+
+            other_user = User(
+                first_name='Tenant',
+                last_name='User',
+                email='tenant@example.com',
+                password='Tenantpass1',
+                account_type=AccountType.TENANT  # Wrong role
+            )
+            db.session.add(other_user)
+            db.session.commit()
+
+        # Log in as the other user
+        self.logoutUser()
+        self.client.post('/login', data=dict(
+            email='tenant@example.com',
+            password='Tenantpass1'
+        ), follow_redirects=True)
+
+        # Attempt to access the protected route
+        response = self.client.get('/properties', follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'The requested page requires different permissions to be accessed.', response.data)
+        self.assertIn(b'Welcome Tenant, to the Rental Management System', response.data)  # Updated assertion
