@@ -12,7 +12,6 @@ class IntegrationTests(BaseTestClass):
         """Test the integration of the registration and 2FA setup process"""
         test_first_name = 'Integration'
         test_last_name = 'Test'
-
         # Register a new user
         response = self.client.post('/register', data=dict(
             first_name=test_first_name,
@@ -35,7 +34,6 @@ class IntegrationTests(BaseTestClass):
         self.assertIsNotNone(token_2fa_search)
         token_2fa = token_2fa_search.group(1)
         totp = TOTP(token_2fa)
-
         # Enable 2FA for the user
         response = self.client.post('/setup_2fa', data=dict(
             verification_code=totp.now()
