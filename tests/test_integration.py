@@ -47,7 +47,6 @@ class IntegrationTests(BaseTestClass):
         self.assertIn(str.encode(test_first_name), response.data)
         self.assertIn(str.encode(test_last_name), response.data)
 
-    # THIS IS MEANT TO WORK WITH REGISTER ONCE COMBINED
     def test_login_with_2fa(self):
         """Test the integration of the login process with 2FA"""
         token_2fa = self.enableTestUser2fa()
