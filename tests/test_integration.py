@@ -4,7 +4,7 @@ from base_test_class import BaseTestClass
 
 
 class IntegrationTests(BaseTestClass):
-    
+
     def test_register_and_2fa_setup(self):
         """Test the integration of the registration and 2FA setup process"""
         test_first_name = 'Integration'

@@ -141,7 +141,7 @@ class AccountTests(BaseTestClass):
         self.assertTrue(response.location.endswith('/verify_2fa'))
 
     def test_skip_2fa_verification(self):
-        """Test login as 2FA user and accessing a page 
+        """Test login as 2FA user and accessing a page
         other than verify_2fa without verifying 2FA"""
         self.loginTestUser()
         self.enableTestUser2fa()
