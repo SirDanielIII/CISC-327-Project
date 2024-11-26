@@ -52,13 +52,12 @@ class IntegrationTests(BaseTestClass):
     # THIS IS MEANT TO WORK WITH REGISTER ONCE COMBINED
     def test_login_with_2fa(self):
         """Test the integration of the login process with 2FA"""
-        test_email = 'integration@test.com'
-        test_password = 'Integrationtest1'
+        token_2fa = self.enableTestUser2fa()
 
         # Login
         response = self.client.post('/login', data=dict(
-            email=test_email,
-            password=test_password,
+            email=self.user_email,
+            password=self.user_password,
         ), follow_redirects=True)
 
         # Ensure user is asked for 2FA
@@ -66,9 +65,6 @@ class IntegrationTests(BaseTestClass):
         self.assertIn(b'Verify 2FA', response.data)
 
         # Get 2FA secret token
-        token_2fa_search = re.search(r'2FA Secret Token: ([\w\d]{32})', response.text, re.IGNORECASE)
-        self.assertIsNotNone(token_2fa_search)
-        token_2fa = token_2fa_search.group(1)
         totp = TOTP(token_2fa)
 
         # Verify 2FA code
@@ -78,9 +74,9 @@ class IntegrationTests(BaseTestClass):
 
         # Ensure login is successful
         self.assertEqual(response.status_code, 200)
-        self.assertIn(f"Welcome {self.test_first_name}, to the Rental Management System", response.text)
-        self.assertIn(str.encode(self.test_first_name), response.data)
-        self.assertIn(str.encode(self.test_last_name), response.data)
+        self.assertIn(f"Welcome {self.user_first_name}, to the Rental Management System", response.text)
+        self.assertIn(str.encode(self.user_first_name), response.data)
+        self.assertIn(str.encode(self.user_last_name), response.data)
 
     def test_new_property(self):
         """Test the property addition process"""
