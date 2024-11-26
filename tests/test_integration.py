@@ -84,27 +84,43 @@ class IntegrationTests(BaseTestClass):
 
     def test_new_property(self):
         """Test the property addition process"""
-        with self.app.app_context():
-            response = self.client.post('/add_property', data=dict(
-                streetAddress='3434 Integration Blvd',
-                ptype='House',
-                sqft='2100',
-                bdr='4',
-                btr='2',
-                price='1850',
-                availability='available'
-            ), follow_redirects=True)
+        # Login to to begin a session
+        response = self.client.post('/login', data=dict(
+            email=self.user_email,
+            password=self.user_password
+        ), follow_redirects=True)
 
-            # Verify the response
-            self.assertEqual(response.status_code, 200)
-            # self.assertIn(b"Property added successfully", response.data)
+        # Ensure the login was successful
+        self.assertIn(self.user_logged_in_welcome_msg, response.data)
+        self.assertNotIn(b'LOGIN', response.data)
+        self.assertIn(str.encode(self.user_first_name), response.data)
+        self.assertIn(str.encode(self.user_last_name), response.data)
 
-            # Ensure the property exists in the database
-            property_in_db = db.session.query(Property).filter_by(address='3434 Integration Blvd').first()
-            self.assertIsNotNone(property_in_db)
-            self.assertEqual(property_in_db.property_type, 'House')
-            self.assertEqual(property_in_db.square_footage, 2100)
-            self.assertEqual(property_in_db.bedrooms, 4)
-            self.assertEqual(property_in_db.bathrooms, 2)
-            self.assertEqual(property_in_db.rent_per_month, 1850)
-            self.assertTrue(property_in_db.available)
+        # Test property details
+        address = '3434 Integration Blvd'
+        property_type = 'House'
+        sqrFtg = '2100'
+        bedrooms = '4'
+        bathrooms = '2'
+        rent_price = '1850'
+        avail = 'available'
+
+        prop = self.client.post('/add_property', data=dict(
+            streetAddress=address,
+            ptype=property_type,
+            sqft=sqrFtg,
+            bdr=bedrooms,
+            btr=bathrooms,
+            price=rent_price,
+            availability=avail
+        ), follow_redirects=True)
+
+        # Verify the response
+        self.assertEqual(prop.status_code, 200)
+        self.assertIn(str.encode(address), prop.data)
+        self.assertIn(str.encode(property_type), prop.data)
+        self.assertIn(str.encode(sqrFtg), prop.data)
+        self.assertIn(str.encode(bedrooms), prop.data)
+        self.assertIn(str.encode(bathrooms), prop.data)
+        self.assertIn(str.encode(rent_price), prop.data)
+        self.assertIn(b'selected="selected"\n            \n            >Available', prop.data)
