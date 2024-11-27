@@ -7,3 +7,4 @@ qrcode[pil]
 
 # For unit test code coverage
 coverage
+pytest

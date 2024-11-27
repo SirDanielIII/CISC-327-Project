@@ -25,8 +25,12 @@ class BaseTestClass(unittest.TestCase):
         cls.user_logged_in_welcome_msg = str.encode(f"Welcome {cls.user_first_name}, to the Rental Management System")
 
         with cls.app.app_context():
-            cls.test_user = User(first_name=cls.user_first_name, last_name=cls.user_last_name, email=cls.user_email,
-                                 password=cls.user_password, account_type=AccountType.PROPERTY_OWNER)
+            db.create_all()
+            cls.test_user = User(first_name=cls.user_first_name, 
+                                 last_name=cls.user_last_name, 
+                                 email=cls.user_email,
+                                 password=cls.user_password, 
+                                 account_type=AccountType.PROPERTY_OWNER)
             db.session.add(cls.test_user)
             db.session.commit()
             db.session.refresh(cls.test_user)
@@ -37,7 +41,10 @@ class BaseTestClass(unittest.TestCase):
             db.session.remove()
             db.drop_all()
             db.engine.dispose()
-            os.remove(db.db_path)
+        
+        db_path = cls.app.config.get("SQLALCHEMY_DATABASE_URI", "").replace("sqlite:///", "")
+        if db_path and os.path.exists(db_path):
+            os.remove(db_path)
 
     def setUp(self) -> None:
         with self.app.app_context():
