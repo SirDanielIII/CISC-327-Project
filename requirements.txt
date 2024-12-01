@@ -7,4 +7,6 @@ qrcode[pil]
 
 # For unit test code coverage
 coverage
-pytest
+
+# For end to end tests
+selenium
