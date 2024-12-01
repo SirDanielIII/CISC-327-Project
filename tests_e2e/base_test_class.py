@@ -110,7 +110,7 @@ class BaseTestClass(unittest.TestCase):
         self.assertEqual(login_full_path, self.driver.current_url)
 
         login_button = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.ID, 'login-submit'))
+            EC.element_to_be_clickable((By.ID, 'login-submit'))
         )
 
         email_input = self.driver.find_element(By.NAME, 'email')
