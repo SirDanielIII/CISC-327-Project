@@ -7,11 +7,14 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
 from app.app import create_app
 from app.database import db
 from app.enums.AccountType import AccountType
 from app.models import User
+
 WEB_SERVER_PORT = 8080
+
 class BaseTestClass(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
@@ -37,6 +40,7 @@ class BaseTestClass(unittest.TestCase):
         cls.server_thread.start()
         # Setting up selenium
         cls.driver = webdriver.Chrome(options=webdriver.ChromeOptions())
+
     @classmethod
     def tearDownClass(cls) -> None:
         cls.driver.quit()
@@ -47,6 +51,7 @@ class BaseTestClass(unittest.TestCase):
             db.drop_all()
             db.engine.dispose()
             os.remove(db.db_path)
+   
     def setUp(self) -> None:
         # Reset driver state
         self.driver.delete_all_cookies()
@@ -59,6 +64,7 @@ class BaseTestClass(unittest.TestCase):
         self.client = self.app.test_client()
         self.test_user_2fa_token = None
         return super().setUp()
+    
     def enableTestUser2fa(self) -> Any | None:
         if self.test_user_2fa_token:
             return

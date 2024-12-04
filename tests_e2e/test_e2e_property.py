@@ -1,16 +1,24 @@
-from base_test_class import BaseTestClass
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
+from base_test_class import BaseTestClass
+
 
 class AddPropertyTests(BaseTestClass):
+
     def test_add_property(self):
         """Test process for adding a property"""
+
+        # Log in
+        self.loginTestUser()
 
         # Navigate to 'add_property' page
         ap_path = self.getFullWebPath('/add_property')
         self.driver.get(ap_path)
+
+        # Verify navigation to the correct page
+        self.assertEqual(ap_path, self.driver.current_url)
 
         # Test data
         test_address = '123 Test St'
@@ -50,12 +58,15 @@ class AddPropertyTests(BaseTestClass):
         save = self.driver.find_element(By.CLASS_NAME, 'OptionsButton')
         save.click()
 
+        # Verify flash message for successful addition
+        self.assertTrue(self.pageFlashesContain("Property added successfully!"))
+
         # Navigate to properties page to check for new property
         properties_page = self.getFullWebPath('/properties')
         self.driver.get(properties_page)
 
         # Allow time to render to reduce potential issues from delays
-        WebDriverWait(self.driver, 5).until (ec.presence_of_all_elements_located((By.CLASS_NAME, 'propertyTab')))
+        WebDriverWait(self.driver, 10).until (ec.presence_of_all_elements_located((By.CLASS_NAME, 'propertyTab')))
 
         # Verify property was added on properties 
         property_list = self.driver.find_elements(By.CLASS_NAME, 'propertyTab')
@@ -63,3 +74,8 @@ class AddPropertyTests(BaseTestClass):
 
         # Check if property was not added onto properties page
         assert test_address in property_addresses, f"Property with address {test_address} not found on properties page."
+
+    def tearDown(self):
+        """Ensure any necessary cleanup is done after each test."""
+        self.driver.quit()
+        super().tearDown()
