@@ -87,7 +87,7 @@ class BaseTestClass(unittest.TestCase):
 
     def getFullWebPath(self, path: str) -> str:
         return f'http://localhost:{WEB_SERVER_PORT}{path}'
-
+    
     def pageFlashesContain(self, expectedStr: str) -> bool:
         flashesContainer = self.driver.find_element(By.ID, 'flashes')
         if not flashesContainer:
@@ -97,7 +97,7 @@ class BaseTestClass(unittest.TestCase):
             if expectedStr in flash.text:
                 return True
         return False
-
+    
     def loginTestUser(self):
         login_full_path = self.getFullWebPath('/login')
         original_url = self.driver.current_url
@@ -124,3 +124,5 @@ class BaseTestClass(unittest.TestCase):
         # Check that the user is logged in
         nav_fullname = self.driver.find_element(By.ID, 'nav-user-fullname')
         self.assertEqual(f'{self.user_first_name} {self.user_last_name}', nav_fullname.text)
+
+        self.assertTrue(self.pageFlashesContain("Logged in successfully!"))

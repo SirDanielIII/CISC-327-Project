@@ -64,7 +64,6 @@ class AccountTests(BaseTestClass):
         self.driver.get(login_full_path)
 
         login_button = WebDriverWait(self.driver, 10).until(
-            # EC.presence_of_element_located((By.ID, 'login-submit'))
             EC.element_to_be_clickable((By.ID, 'login-submit'))
         )
         # Rest of elements will be loaded on page, no need to wait for them
@@ -98,7 +97,9 @@ class AccountTests(BaseTestClass):
     def test_logout(self):
         """Test the logout process"""
         self.loginTestUser()
-        logout_button = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.ID, 'nav-logout')))
+        logout_button = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.ID, 'nav-logout'))
+        )
         logout_button.click()
 
         # Check that the user is redirected to the home page
@@ -113,3 +114,4 @@ class AccountTests(BaseTestClass):
         self.assertEqual(0, len(nav_fullname))
 
         self.assertIn(self.user_logged_out_welcome_msg, welcome_msg.text)
+        self.assertTrue(self.pageFlashesContain("Logged out successfully!"))
