@@ -31,8 +31,8 @@
     <div class="right">
         <div class="unauth-btns-cont">
             {% if current_user.is_authenticated %}
-            <h3 class="Name">{{current_user.first_name}} {{current_user.last_name}}</h3>
-            <a class="unauth-btn" href="/logout">LOGOUT</a>
+            <h3 id="nav-user-fullname" class="Name">{{current_user.first_name}} {{current_user.last_name}}</h3>
+            <a id="nav-logout" class="unauth-btn" href="/logout">LOGOUT</a>
         </div>
         {% else %}
         <a class="unauth-btn" href="/login">LOGIN</a>

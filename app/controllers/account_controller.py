@@ -106,6 +106,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         login_user(user)
+        flash('Account created successfully!', category='success')
         return redirect('/setup_2fa')
 
     return render_template('account/register.html')
