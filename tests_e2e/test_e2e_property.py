@@ -3,25 +3,13 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
 from base_test_class import BaseTestClass
-from test_account import AccountTests
-
 
 class AddPropertyTests(BaseTestClass):
-
-    def sign_in(self):
-        """ First ensure that the user is logged in"""
-        try:
-            self.loginTestUser()
-        except AssertionError:
-            at = AccountTests()
-            at.setUpClass()  # Initialize the class setup
-            at.test_register()
-            self.loginTestUser()
 
     def test_add_property(self):
         """Test process for adding a property"""
 
-        self.sign_in()
+        self.loginTestUser()
 
         # Navigate to 'add_property' page
         ap_path = self.getFullWebPath('/add_property')
@@ -71,17 +59,21 @@ class AddPropertyTests(BaseTestClass):
         # Verify flash message for successful addition
         self.assertTrue(self.pageFlashesContain("Successfully added the new property."))
 
-        # Navigate to properties page to check for new property
-        properties_page = self.getFullWebPath('/properties')
-        self.driver.get(properties_page)
-        WebDriverWait(self.driver, 10).until(ec.url_changes(properties_page))
+        # Extract property ID from url
+        property_id = self.driver.current_url.split('/')[-1]
+
+        # Navigate to the properties page
+        properties_path = self.getFullWebPath('/properties')
+        self.driver.get(properties_path)
+
+        # Verify navigation to the correct page
+        WebDriverWait(self.driver, 10).until(ec.url_matches(properties_path))
 
         # Allow time to render to reduce potential issues from delays
-        WebDriverWait(self.driver, 10).until (ec.presence_of_all_elements_located((By.CLASS_NAME, 'PropertyTabs')))
+        property_list = WebDriverWait(self.driver, 10).until(ec.presence_of_all_elements_located((By.CLASS_NAME, 'propertyTab')))
 
         # Check if the new property is listed
-        property_list = self.driver.find_elements(By.CLASS_NAME, 'PropertyTabs')
-        property_addresses = [property.text for property in property_list]
+        property_ids = [property.get_dom_attribute('id') for property in property_list]
 
         # Assert that the test address is present in the list of property addresses
-        self.assertIn(test_address, property_addresses, "Property not found on properties page.")
+        self.assertIn(property_id, property_ids, "Property not found on properties page.")
