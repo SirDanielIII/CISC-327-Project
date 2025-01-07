@@ -1,3 +1,6 @@
+# Rental Management System
+Group 57-AA
+
 ## Cisc327-F24 Assignment1 Submission Instructions
 
 You should follow the below instructions to start your assignment 
